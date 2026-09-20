@@ -1,0 +1,211 @@
+{% extends 'layouts/base.twig' %}
+
+{% block title %}
+  portfolio | SHIBAHARA
+{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-role">
+        Web Engineer / Full Stack Developer
+      </p>
+      <h1>
+        Webで、<br>価値をつくる。
+      </h1>
+      <p class="hero-description">
+        サーバーサイドからフロントエンドまで<br>
+        Webシステムの設計・開発・運用・改善を行っています
+      </p>
+      <div class="hero-skills">
+        {% for skill in publishedSkills %}
+          <span>{{ skill.name }}</span>
+        {% endfor %}
+      </div>
+      <div class="hero-actions">
+        <a href="#works" class="button-primary">
+          <img src="/assets/images/common/box-arrow-up-right.svg" alt="arrow" width="20px" height="20px">
+          <span>実績を見る</span>
+        </a>
+        <a href="https://github.com/" class="button-secondary" target="_blank">
+          <img src="/assets/images/common/github.svg" alt="GitHub">
+          <span>GitHub</span>
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="terminal">
+        <div class="terminal-header">
+          <span>TERMINAL</span>
+          <div>
+            <i></i>
+            <i></i>
+            <i></i>
+          </div>
+        </div>
+        <div class="terminal-body">
+          <pre>
+<span>$ whoami</span>
+&gt; Shibahara Reimi
+&gt; Web Engineer
+
+<span>$ skills --list</span>
+Backend   : PHP / Laravel / Slim                  [ OK ]
+Database  : MySQL                                 [ OK ]
+Frontend  : HTML / CSS / JS / React               [ OK ]
+Infra     : Linux / nginx                         [ OK ]
+Cloud     : Cloudflare                            [ OK ]
+
+<span>$ mission</span>
+&gt; 技術で課題を解決し、ユーザーに価値を届ける。
+
+<span>$ </span>
+</pre>
+        </div>
+      </div>
+      <div class="network-art" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </section>
+  <section class="tech-categories">
+    {% set categoryIcons = {
+      'Backend': '',
+    } %}
+    {% for categoryName, skills in publishedSkillsCategory %}
+      <div class="tech-category">
+        <b>▦</b>
+        <strong>{{ categoryName }}</strong>
+        <span>
+          {% for skill in skills %}
+            {{ skill.name }}
+            {% if not loop.last %}{% endif %}
+          {% endfor %}
+        </span>
+      </div>
+    {% endfor %}
+    <div class="tech-category">
+      <b>&lt;/&gt;</b>
+      <strong>Frontend</strong>
+      <span>HTML / CSS / JS / React</span>
+    </div>
+    <div class="tech-category">
+      <b>▣</b>
+      <strong>Database</strong>
+      <span>MySQL</span>
+    </div>
+    <div class="tech-category">
+      <b>☁</b>
+      <strong>Infra / DevOps</strong>
+      <span>Linux / nginx / apache / Docker</span>
+    </div>
+    <div class="tech-category">
+      <b>&gt;_</b>
+      <strong>Tools</strong>
+      <span>Git / VSCode / Docker</span>
+    </div>
+    <div class="tech-category">
+      <b>☁</b>
+      <strong>Cloud / CDN</strong>
+      <span>AWS / Cloudflare</span>
+    </div>
+  </section>
+  <section class="works section-panel" id="works">
+    <div class="section-header">
+      <h2>RECENT WORKS</h2>
+      <a href="/works">すべての実績を見る →</a>
+    </div>
+    <div class="works-grid">
+      {% for work in featuredWorks %}
+        <a href="/works/{{ work.slug }}" class="work-card">
+          {% if work.thumbnail %}
+            <img src="/uploads/{{ work.thumbnail }}" alt="{{ work.title }}">
+          {% else %}
+            <div class="work-thumb">
+              <span>{{ work.category }}</span>
+            </div>
+          {% endif %}
+          <span class="category">{{ work.category }}</span>
+          <h3>{{ work.title }}</h3>
+          <p>{{ work.summary }}</p>
+          {% if work.skills is not empty %}
+            <div class="tags">
+              {% for skill in work.skills %}
+                <span>{{ skill.name }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+  <section class="cases section-panel" id="cases">
+    <div class="section-header">
+      <h2>LATEST CASES</h2>
+      <a href="/cases">すべての事例を見る →</a>
+    </div>
+    <div class="cases-grid">
+      {% for case in publishedCases %}
+        <a href="/cases/{{ case.slug }}" class="case-card">
+          <span class="case-number">{{ '%02d'|format(case.id) }}</span>
+          <h3>{{ case.title }}</h3>
+          <p>{{ case.summary }}</p>
+          {% if case.skills is not empty %}
+            <div class="tags">
+              {% for skill in case.skills %}
+                <span>{{ skill.name }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  </section>
+  <section class="stack section-panel">
+    <div class="section-header">
+      <h2>TECH STACK & FRONTEND</h2>
+    </div>
+    <div class="stack-layout">
+      <div class="code-panel">
+        <div class="code-tabs">
+          <span>HTML</span>
+          <span>SCSS</span>
+          <span>JS</span>
+          <span>React</span>
+        </div>
+        <pre>&lt;section class="hero"&gt;
+  &lt;div class="container"&gt;
+    &lt;h1&gt;Build something great.&lt;/h1&gt;
+    &lt;p&gt;I craft web experiences with clean code
+       and thoughtful design.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</pre>
+      </div>
+      <div class="stack-card">
+        <strong>HTML5</strong>
+        <span>セマンティックなマークアップ</span>
+      </div>
+      <div class="stack-card">
+        <strong>CSS3 / SCSS</strong>
+        <span>設計しやすいスタイル構築</span>
+      </div>
+      <div class="stack-card">
+        <strong>JavaScript</strong>
+        <span>モダンJSでインタラクション</span>
+      </div>
+      <div class="stack-card">
+        <strong>React</strong>
+        <span>コンポーネントでUIを構築</span>
+      </div>
+      <div class="stack-card">
+        <strong>TypeScript</strong>
+        <span>型安全なフロントエンド</span>
+      </div>
+    </div>
+  </section>
+{% endblock %}

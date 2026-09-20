@@ -1,0 +1,61 @@
+{% extends 'layouts/base.twig' %}
+
+{% block title %}
+  contact | SHIBAHARA
+{% endblock %}
+
+{% block content %}
+  <div class="contact-content">
+    <div class="contact-title">
+      <h2>CONTACT</h2>
+      <p>問い合わせフォーム</p>
+    </div>
+    <section class="contact-panel">
+      <div class="contact-panel-header">
+        <h3>制作・改修・運用のご相談</h3>
+        <p>制作・改修・運用相談など、お気軽にご連絡ください</p>
+      </div>
+      <form action="/confirm" method="post" class="contact-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        {% if errors.csrf is defined %}
+          <p class="contact-form-error">{{ errors.csrf }}</p>
+        {% endif %}
+        {% if errors.common is defined %}
+          <p class="contact-form-error">{{ errors.common }}</p>
+        {% endif %}
+        <label for="name">
+          <span>お名前</span>
+          <input type="text" name="name" id="name" value="{{ form.name|default('') }}" placeholder="Shibahara Reimi">
+          {% if errors.name is defined %}
+            <p class="contact-form-error">{{ errors.name }}</p>
+          {% endif %}
+        </label>
+        <label for="email">
+          <span>メールアドレス</span>
+          <input type="email" name="email" id="email" value="{{ form.email|default('') }}" placeholder="email@example.com">
+          {% if errors.email is defined %}
+            <p class="contact-form-error">{{ errors.email }}</p>
+          {% endif %}
+        </label>
+        <label for="subject">
+          <span>件名</span>
+          <input type="text" name="subject" id="subject" value="{{ form.subject|default('') }}" placeholder="Webサイト改修について">
+          {% if errors.subject is defined %}
+            <p class="contact-form-error">{{ errors.subject }}</p>
+          {% endif %}
+        </label>
+        <label for="message">
+          <span>お問い合わせ内容</span>
+          <textarea name="message" id="message" placeholder="現在のサイトの改善とお問い合わせフォーム追加について相談したいです。">{{ form.message | default('') }}</textarea>
+          {% if errors.message is defined %}
+            <p class="contact-form-error">{{ errors.message }}</p>
+          {% endif %}
+        </label>
+        <div class="contact-form-footer">
+          <p>通常2〜3営業日以内に返信します</p>
+          <input type="submit" value="入力確認画面へ">
+        </div>
+      </form>
+    </section>
+  </div>
+{% endblock %}

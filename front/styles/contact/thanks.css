@@ -1,0 +1,41 @@
+/* 大まかなスタイルはfront/styles/contact/index.cssに記述 */
+
+.thanks-panel-header {
+  border: none;
+  text-align: center;
+}
+
+.thanks-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%;
+  margin: 20px auto;
+  padding: 30px 24px;
+}
+
+.thanks-link a {
+  width: auto;
+  min-width: 180px;
+  min-height: 52px;
+  padding: 0 24px;
+  text-align: center;
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 3em;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: rgba(5, 9, 20, .42);
+}
+
+@media (max-width: 700px) {
+  .thanks-link {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .thanks-link a {
+    width: 100%;
+  }
+}

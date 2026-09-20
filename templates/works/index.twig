@@ -1,0 +1,49 @@
+{% extends 'layouts/base.twig' %}
+
+{% block title %}
+  works | SHIBAHARA
+{% endblock %}
+
+{% block content %}
+  <div class="works-content">
+    <div class="works-title">
+      <h2>WORKS</h2>
+      <p>作成したWebサイト・システムの実績を紹介します</p>
+    </div>
+    <div class="works-category">
+      <button type="button" class="is-active" data-work-category-filter="all">
+        All
+      </button>
+      {% for category in workCategories %}
+        <button type="button" data-work-category-filter="{{ category }}">
+          {{ category }}
+        </button>
+      {% endfor %}
+    </div>
+    <div class="works-grid" data-works-grid>
+      {% for work in publishedWorks %}
+        <a href="/works/{{ work.slug }}" class="work-card" data-work-card data-work-category="{{ work.category }}">
+          {% if work.thumbnail %}
+            <img src="/uploads/{{ work.thumbnail }}" alt="{{ work.title }}">
+          {% else %}
+            <div class="work-thumbnail">
+              <span>{{ work.category }}</span>
+            </div>
+          {% endif %}
+          <span class="category">{{ work.category }}</span>
+          <h3>{{ work.title }}</h3>
+          <p>{{ work.summary }}</p>
+          {% if work.skills is not empty %}
+            <div class="work-tags">
+              {% for skill in work.skills %}
+                <span data-work-skill-id="{{ skill.id }}">
+                  {{ skill.name }}
+                </span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

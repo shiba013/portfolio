@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+      {% block title %}
+        portfolio
+      {% endblock %}
+    </title>
+    <script type="module" src="http://localhost:5173/front/react/main.tsx"></script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-logo">
+        <a href="/">
+          <span class="header-terminal">&gt;_</span>
+          <span>SHIBAHARA WORKS</span>
+        </a>
+      </div>
+      <nav>
+        <a href="/" class="{{ is_active_path('/') ? 'is-active' : '' }}">HOME</a>
+        <a href="/works" class="{{ is_active_path('/works') ? 'is-active' : '' }}">WORKS</a>
+        <a href="/cases" class="{{ is_active_path('/cases') ? 'is-active' : '' }}">CASES</a>
+        <a href="/about" class="{{ is_active_path('/about') ? 'is-active' : '' }}">ABOUT</a>
+        <a href="/contact" class="{{ is_active_path('/contact') ? 'is-active' : '' }}">CONTACT</a>
+      </nav>
+    </header>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+    <button type="button" class="top-button">
+      <span>↑</span>
+      <span>TOP</span>
+    </button>
+    <footer class="footer">
+      <small>&copy; SHIBAHARA WORKS</small>
+    </footer>
+  </body>
+</html>

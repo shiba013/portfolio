@@ -1,0 +1,58 @@
+{% extends 'layouts/base.twig' %}
+
+{% block title %}
+  work detail | SHIBAHARA
+{% endblock %}
+
+{% block content %}
+  <div class="work-detail">
+    <a href="/works" class="back-link">← WORKS一覧に戻る</a>
+    <div class="work-detail-content">
+      <div class="work-detail-image">
+        {% if work.thumbnail %}
+          <img src="/uploads/{{ work.thumbnail }}" alt="{{ work.title }}">
+        {% else %}
+          <div class="work-thumbnail">
+            <span>{{ work.category }}</span>
+          </div>
+        {% endif %}
+      </div>
+      <dl class="work-detail-list">
+        <div class="work-detail-title">
+          <span>{{ work.category }}</span>
+          <h1>{{ work.title }}</h1>
+          <p>{{ work.summary }}</p>
+        </div>
+        <div class="work-detail-items">
+          <dt>制作期間</dt>
+          <dd>{{ work.period }}</dd>
+        </div>
+        <div class="work-detail-items">
+          <dt>スキル</dt>
+          {% if work.skills is not empty %}
+            <dd class="work-detail-skills">
+              {% for skill in work.skills %}
+                <span>{{ skill.name }}</span>
+              {% endfor %}
+            </dd>
+          {% endif %}
+        </div>
+        <div class="work-detail-actions">
+          {# {% if work.site_url %} #}
+          <a href="{{ work.site_url }}" class="button-primary" target="_blank">サイトを見る</a>
+          {# {% endif %} #}
+          {# {% if work.github_url %} #}
+          <a href="{{ work.github_url }}" class="button-secondary" target="_blank" alt="GitHub">
+            <img src="/assets/images/common/github.svg" alt="GitHub">
+            <span>GitHub</span>
+          </a>
+          {# {% endif %} #}
+        </div>
+      </dl>
+    </div>
+    <div class="work-detail-description">
+      <h3>ABOUT THIS WORK</h3>
+      <p>{{ work.description }}</p>
+    </div>
+  </div>
+{% endblock %}

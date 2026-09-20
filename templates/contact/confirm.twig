@@ -1,0 +1,43 @@
+{% extends 'layouts/base.twig' %}
+
+{% block title %}
+  confirm | SHIBAHARA
+{% endblock %}
+
+{% block content %}
+  <div class="contact-content">
+    <div class="contact-title">
+      <h2>CONFIRM</h2>
+      <p>入力内容確認</p>
+    </div>
+    <section class="contact-panel">
+      <div class="contact-panel-header">
+        <h3>送信内容をご確認ください</h3>
+        <p>内容に誤りがなければ送信してください</p>
+      </div>
+      <form action="/complete" method="post" class="contact-form confirm-form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <div class="confirm-item">
+          <span>お名前</span>
+          <p>{{ form.name }}</p>
+        </div>
+        <div class="confirm-item">
+          <span>メールアドレス</span>
+          <p>{{ form.email }}</p>
+        </div>
+        <div class="confirm-item">
+          <span>件名</span>
+          <p>{{ form.subject }}</p>
+        </div>
+        <div class="confirm-item">
+          <span>お問い合わせ内容</span>
+          <p>{{ form.message }}</p>
+        </div>
+        <div class="contact-form-footer confirm-form-footer">
+          <button type="submit" formaction="/back">BACK</button>
+          <input type="submit" value="送信する">
+        </div>
+      </form>
+    </section>
+  </div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'layouts/base.twig' %}
+
+{% block title %}
+  cases | SHIBAHARA
+{% endblock %}
+
+{% block content %}
+  <div class="cases-content">
+    <div class="cases-title">
+      <h2>CASES</h2>
+      <p>開発中に遭遇した課題とそれを解決した方法を紹介します</p>
+    </div>
+    <div class="cases-skill">
+      <button type="button" class="is-active" data-case-skill-filter="all">
+        All
+      </button>
+      {% for skill in caseSkills %}
+        <button type="button" data-case-skill-filter="{{ skill.id }}">
+          {{ skill.name }}
+        </button>
+      {% endfor %}
+    </div>
+    <div class="cases-grid">
+      {% for case in publishedCases %}
+        <a href="/cases/{{ case.slug }}" class="case-card">
+          <span class="case-number">{{ '%02d'|format(case.id) }}</span>
+          <h3>{{ case.title }}</h3>
+          <p>{{ case.summary }}</p>
+          {% if case.skills is not empty %}
+            <div class="tags">
+              {% for skill in case.skills %}
+                <span data-case-skill-id="{{ skill.id }}">
+                  {{ skill.name }}
+                </span>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

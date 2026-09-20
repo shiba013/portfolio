@@ -1,0 +1,55 @@
+.cases-content {
+  max-width: 1360px;
+  margin: auto;
+  padding: 46px 28px;
+}
+
+.cases-title {
+  text-align: center;
+}
+
+.cases-title h2 {
+  margin: 0;
+  color: var(--color-accent);
+  font-size: clamp(36px, 5vw, 58px);
+  line-height: 1;
+  letter-spacing: .02em;
+}
+
+.cases-title p {
+  margin: 12px 0 0;
+  color: var(--color-text);
+  font-weight: 800;
+}
+
+.cases-skill {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 28px 0 34px;
+}
+
+.cases-skill button {
+  padding: 8px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  font: inherit;
+}
+
+.cases-skill button:hover,
+.cases-skill button.is-active {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* 絞り込みを優先させる */
+.case-card[hidden] {
+  display: none;
+}
+
+/* 事例一覧はfront/styles/home/index.cssに記述 */

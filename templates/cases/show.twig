@@ -1,0 +1,62 @@
+{% extends 'layouts/base.twig' %}
+
+{% block title %}
+  cases detail | SHIBAHARA
+{% endblock %}
+
+{% block content %}
+  <div class="case-detail">
+    <a href="/cases" class="back-link">← CASES一覧へ戻る</a>
+    <div class="case-detail-content">
+      <div class="case-detail-title">
+        <span class="case-number">{{ '%02d'|format(case.id) }}</span>
+        <h1>{{ case.title }}</h1>
+        <p>{{ case.summary }}</p>
+        {% if case.skills is not empty %}
+          <div class="case-detail-meta">
+            <span class="case-detail-meta-label">スキル</span>
+            <div class="case-detail-skills">
+              {% for skill in case.skills %}
+                <span>{{ skill.name }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      <dl class="case-detail-list">
+        <div>
+          <dt>発生した問題</dt>
+          <dd>{{ case.problem }}</dd>
+        </div>
+        <div>
+          <dt>原因調査</dt>
+          <dd>{{ case.investigation }}</dd>
+        </div>
+        <div>
+          <dt>解決方法</dt>
+          <dd>{{ case.solution }}</dd>
+        </div>
+        <div>
+          <dt>対応結果</dt>
+          <dd>{{ case.result }}</dd>
+        </div>
+      </dl>
+    </div>
+    <div class="case-detail-description">
+      <h3>ABOUT THIS CASE</h3>
+      <div class="case-detail-panel{% if case.visual_type %} is-{{ case.visual_type }}{% endif %}">
+        <div class="terminal-header">
+          <span>
+            {{ case.visual_type|replace({'-': ' ', '_': ' '}) }}
+          </span>
+          <div>
+            <i></i>
+            <i></i>
+            <i></i>
+          </div>
+        </div>
+        <pre>{{ case.visual_body }}</pre>
+      </div>
+    </div>
+  </div>
+{% endblock %}
