@@ -61,6 +61,10 @@
 
 .button-primary,
 .button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   min-width: 210px;
   padding: 16px 24px;
   border-radius: 8px;
@@ -196,6 +200,12 @@
   left: 116px;
 }
 
+.tech-categories-header {
+  max-width: 1280px;
+  margin: 28px auto 18px;
+  padding: 0 20px;
+}
+
 .tech-categories {
   max-width: 1280px;
   margin: auto;
@@ -262,7 +272,8 @@
   margin-bottom: 18px;
 }
 
-.section-header h2 {
+.section-header h2,
+.tech-categories-header h2 {
   position: relative;
   margin: 0;
   padding-left: 16px;
@@ -270,7 +281,8 @@
   letter-spacing: .02em;
 }
 
-.section-header h2::before {
+.section-header h2::before,
+.tech-categories-header h2::before {
   position: absolute;
   top: .45em;
   left: 0;
@@ -587,6 +599,12 @@
     margin-right: 16px;
     margin-left: 16px;
     padding: 0;
+  }
+
+  .tech-categories-header {
+    margin-right: 16px;
+    margin-left: 16px;
+    padding: 0 20px;
   }
 
   .tech-category {

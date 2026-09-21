@@ -17,14 +17,9 @@
         サーバーサイドからフロントエンドまで<br>
         Webシステムの設計・開発・運用・改善を行っています
       </p>
-      <div class="hero-skills">
-        {% for skill in publishedSkills %}
-          <span>{{ skill.name }}</span>
-        {% endfor %}
-      </div>
       <div class="hero-actions">
         <a href="#works" class="button-primary">
-          <img src="/assets/images/common/box-arrow-up-right.svg" alt="arrow" width="20px" height="20px">
+          <img src="/assets/images/common/box-arrow-up-right.svg" alt="" aria-hidden="true" width="16px" height="16px">
           <span>実績を見る</span>
         </a>
         <a href="https://github.com/" class="button-secondary" target="_blank">
@@ -73,47 +68,35 @@ Cloud     : Cloudflare                            [ OK ]
       </div>
     </div>
   </section>
+  <div class="tech-categories-header">
+    <h2>SKILLS LIST</h2>
+  </div>
   <section class="tech-categories">
     {% set categoryIcons = {
-      'Backend': '',
+      'Backend': '/assets/images/common/terminal-fill.svg',
+      'Cloud': '/assets/images/common/cloudy-fill.svg',
+      'Database': '/assets/images/common/database-fill-teal.svg',
+      'Frontend': '/assets/images/common/code-slash.svg',
+      'Infrastructure & DevOps': '/assets/images/common/globe.svg',
+      'Virtualization' : '/assets/images/common/display-fill.svg',
     } %}
     {% for categoryName, skills in publishedSkillsCategory %}
+      {% set iconPath = categoryIcons[categoryName]|default(null) %}
       <div class="tech-category">
-        <b>▦</b>
+        <img
+          src="{{ iconPath }}"
+          alt="skills-icon"
+          aria-hidden="true"
+        >
         <strong>{{ categoryName }}</strong>
         <span>
           {% for skill in skills %}
             {{ skill.name }}
-            {% if not loop.last %}{% endif %}
+            {% if not loop.last %} / {% endif %}
           {% endfor %}
         </span>
       </div>
     {% endfor %}
-    <div class="tech-category">
-      <b>&lt;/&gt;</b>
-      <strong>Frontend</strong>
-      <span>HTML / CSS / JS / React</span>
-    </div>
-    <div class="tech-category">
-      <b>▣</b>
-      <strong>Database</strong>
-      <span>MySQL</span>
-    </div>
-    <div class="tech-category">
-      <b>☁</b>
-      <strong>Infra / DevOps</strong>
-      <span>Linux / nginx / apache / Docker</span>
-    </div>
-    <div class="tech-category">
-      <b>&gt;_</b>
-      <strong>Tools</strong>
-      <span>Git / VSCode / Docker</span>
-    </div>
-    <div class="tech-category">
-      <b>☁</b>
-      <strong>Cloud / CDN</strong>
-      <span>AWS / Cloudflare</span>
-    </div>
   </section>
   <section class="works section-panel" id="works">
     <div class="section-header">

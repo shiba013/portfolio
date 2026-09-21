@@ -14,11 +14,14 @@ VALUES
 
 ('MySQL', 'mysql', 'Database', 1),
 
-('Linux', 'linux', 'Infrastructure', 1),
-('nginx', 'nginx', 'Infrastructure', 2),
-('Docker', 'docker', 'Infrastructure', 3),
+('Linux', 'linux', 'Infrastructure & DevOps', 1),
+('nginx', 'nginx', 'Infrastructure & DevOps', 2),
+('Docker', 'docker', 'Infrastructure & DevOps', 3),
 
-('Cloudflare', 'cloudflare', 'Cloud', 1);
+('Cloudflare', 'cloudflare', 'Cloud', 1),
+
+('virtualbox', 'virtualbox', 'Virtualization', 1),
+('UTM', 'UTM', 'Virtualization', 2);
 
 INSERT INTO works
 (

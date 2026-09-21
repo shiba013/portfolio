@@ -39,7 +39,10 @@
         </div>
         <div class="work-detail-actions">
           {# {% if work.site_url %} #}
-          <a href="{{ work.site_url }}" class="button-primary" target="_blank">サイトを見る</a>
+          <a href="{{ work.site_url }}" class="button-primary" target="_blank">
+            <img src="/assets/images/common/box-arrow-up-right.svg" alt="" aria-hidden="true" width="16px" height="16px">
+            <span>サイトを見る</span>
+          </a>
           {# {% endif %} #}
           {# {% if work.github_url %} #}
           <a href="{{ work.github_url }}" class="button-secondary" target="_blank" alt="GitHub">
