@@ -170,20 +170,23 @@
 }
 
 .about-skill-tags {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
 }
 
 .about-skill-tags span {
   min-height: 42px;
   display: grid;
   place-items: center;
+  max-width: 100%;
   padding: 10px 12px;
   color: #dce6f5;
   font-family: monospace;
   font-size: 13px;
   font-weight: 700;
+  overflow-wrap: anywhere;
+  text-align: center;
   border: 1px solid var(--color-border);
   border-radius: 6px;
   background: rgba(16, 24, 39, .78);
@@ -254,7 +257,4 @@
     min-height: auto;
   }
 
-  .about-skill-tags {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }

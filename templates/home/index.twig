@@ -65,10 +65,10 @@ Cloud     : Cloudflare                            [ OK ]
       </div>
     </div>
   </section>
-  <div class="tech-categories-header">
+  <div class="hero-skills-header">
     <h2>SKILLS LIST</h2>
   </div>
-  <section class="tech-categories">
+  <section class="hero-skills">
     {% set categoryIcons = {
       'Backend': '/assets/images/common/terminal-fill.svg',
       'Cloud': '/assets/images/common/cloudy-fill.svg',
@@ -79,7 +79,7 @@ Cloud     : Cloudflare                            [ OK ]
     } %}
     {% for categoryName, skills in publishedSkillsCategory %}
       {% set iconPath = categoryIcons[categoryName]|default(null) %}
-      <div class="tech-category">
+      <div class="hero-skill">
         <img
           src="{{ iconPath }}"
           alt="skills-icon"
@@ -144,48 +144,6 @@ Cloud     : Cloudflare                            [ OK ]
           {% endif %}
         </a>
       {% endfor %}
-    </div>
-  </section>
-  <section class="stack section-panel">
-    <div class="section-header">
-      <h2>TECH STACK & FRONTEND</h2>
-    </div>
-    <div class="stack-layout">
-      <div class="code-panel">
-        <div class="code-tabs">
-          <span>HTML</span>
-          <span>SCSS</span>
-          <span>JS</span>
-          <span>React</span>
-        </div>
-        <pre>&lt;section class="hero"&gt;
-  &lt;div class="container"&gt;
-    &lt;h1&gt;Build something great.&lt;/h1&gt;
-    &lt;p&gt;I craft web experiences with clean code
-       and thoughtful design.&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/section&gt;</pre>
-      </div>
-      <div class="stack-card">
-        <strong>HTML5</strong>
-        <span>セマンティックなマークアップ</span>
-      </div>
-      <div class="stack-card">
-        <strong>CSS3 / SCSS</strong>
-        <span>設計しやすいスタイル構築</span>
-      </div>
-      <div class="stack-card">
-        <strong>JavaScript</strong>
-        <span>モダンJSでインタラクション</span>
-      </div>
-      <div class="stack-card">
-        <strong>React</strong>
-        <span>コンポーネントでUIを構築</span>
-      </div>
-      <div class="stack-card">
-        <strong>TypeScript</strong>
-        <span>型安全なフロントエンド</span>
-      </div>
     </div>
   </section>
 {% endblock %}

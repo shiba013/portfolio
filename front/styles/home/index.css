@@ -31,28 +31,6 @@
   line-height: 1.9;
 }
 
-.hero-skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 28px;
-}
-
-.hero-skills span,
-.tags span,
-.work-tags span {
-  border: 1px solid var(--color-border);
-  border-radius: 5px;
-  background: rgba(14, 22, 36, .78);
-  color: #dce6f5;
-  font-family: monospace;
-  font-size: 12px;
-}
-
-.hero-skills span {
-  padding: 8px 13px;
-}
-
 .hero-actions {
   display: flex;
   gap: 16px;
@@ -200,13 +178,15 @@
   left: 116px;
 }
 
-.tech-categories-header {
+
+/* ここからスキル一覧 */
+.hero-skills-header {
   max-width: 1280px;
   margin: 28px auto 18px;
   padding: 0 20px;
 }
 
-.tech-categories {
+.hero-skills {
   max-width: 1280px;
   margin: auto;
   padding: 0 32px;
@@ -219,7 +199,7 @@
   overflow: hidden;
 }
 
-.tech-category {
+.hero-skill {
   min-height: 104px;
   padding: 22px 16px;
   display: flex;
@@ -231,24 +211,17 @@
   border-right: 1px solid var(--color-border);
 }
 
-.tech-category:last-child {
+.hero-skill:last-child {
   border-right: 0;
 }
 
-.tech-category b {
-  color: var(--color-accent);
-  font-family: monospace;
-  font-size: 27px;
-  line-height: 1;
-}
-
-.tech-categories strong {
+.hero-skills strong {
   color: var(--color-accent);
   font-family: monospace;
   font-size: 13px;
 }
 
-.tech-categories span {
+.hero-skills span {
   color: #dce6f5;
   font-size: 13px;
 }
@@ -263,6 +236,7 @@
   background: rgba(9, 15, 28, .78);
   box-shadow: var(--shadow-panel);
 }
+/* スキル一覧ここまで */
 
 .section-header {
   display: flex;
@@ -273,7 +247,7 @@
 }
 
 .section-header h2,
-.tech-categories-header h2 {
+.hero-skills-header h2 {
   position: relative;
   margin: 0;
   padding-left: 16px;
@@ -282,7 +256,7 @@
 }
 
 .section-header h2::before,
-.tech-categories-header h2::before {
+.hero-skills-header h2::before {
   position: absolute;
   top: .45em;
   left: 0;
@@ -384,7 +358,8 @@
 }
 
 .tags,
-.work-tags {
+.work-tags,
+.about-skill-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
@@ -392,9 +367,15 @@
 }
 
 .tags span,
-.work-tags span {
+.work-tags span,
+.about-skill-tags span {
   padding: 5px 9px;
   color: #b7c5d9;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  background: rgba(14, 22, 36, .78);
+  font-family: monospace;
+  font-size: 12px;
 }
 /* 実績ここまで */
 
@@ -455,88 +436,6 @@
 }
 /* 事例ここまで */
 
-.stack {
-  margin-bottom: 28px;
-}
-
-.stack-layout {
-  display: grid;
-  grid-template-columns: 2.4fr repeat(5, 1fr);
-  gap: 12px;
-}
-
-.code-panel,
-.stack-card {
-  min-height: 150px;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  background: rgba(12, 19, 32, .86);
-  overflow: hidden;
-}
-
-.code-tabs {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.code-tabs span {
-  padding: 8px 12px;
-  color: var(--color-muted);
-  font-family: monospace;
-  font-size: 12px;
-  border-right: 1px solid var(--color-border);
-}
-
-.code-tabs span:first-child {
-  color: var(--color-accent);
-  background: rgba(35, 241, 208, .08);
-}
-
-.code-panel pre {
-  margin: 0;
-  padding: 14px 18px;
-  color: #cde8ff;
-  font-family: "SFMono-Regular", Consolas, monospace;
-  font-size: 12px;
-  line-height: 1.6;
-  overflow-x: auto;
-}
-
-.stack-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 18px 14px;
-  text-align: center;
-}
-
-.stack-card::before {
-  display: grid;
-  width: 42px;
-  height: 42px;
-  place-items: center;
-  border-radius: 6px;
-  content: "</>";
-  color: var(--color-accent);
-  font-family: monospace;
-  font-size: 18px;
-  font-weight: 800;
-  background: rgba(35, 241, 208, .09);
-}
-
-.stack-card strong {
-  font-size: 15px;
-}
-
-.stack-card span {
-  color: #d5deec;
-  font-size: 13px;
-  line-height: 1.55;
-}
-
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
@@ -550,14 +449,6 @@
   .works-grid,
   .cases-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .stack-layout {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .code-panel {
-    grid-column: 1 / -1;
   }
 }
 
