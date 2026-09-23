@@ -18,14 +18,31 @@
           <span>SHIBAHARA WORKS</span>
         </a>
       </div>
-      <nav>
+      <nav class="header-nav" aria-label="メインメニュー">
         <a href="/" class="{{ is_active_path('/') ? 'is-active' : '' }}">HOME</a>
         <a href="/works" class="{{ is_active_path('/works') ? 'is-active' : '' }}">WORKS</a>
         <a href="/cases" class="{{ is_active_path('/cases') ? 'is-active' : '' }}">CASES</a>
         <a href="/about" class="{{ is_active_path('/about') ? 'is-active' : '' }}">ABOUT</a>
         <a href="/contact" class="{{ is_active_path('/contact') ? 'is-active' : '' }}">CONTACT</a>
       </nav>
+      <button type="button" class="mobile-menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </header>
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <div class="mobile-menu-backdrop" data-mobile-menu-close></div>
+      <aside class="mobile-menu-drawer" aria-label="モバイルメニュー">
+        <nav>
+          <a href="/" class="{{ is_active_path('/') ? 'is-active' : '' }}">HOME</a>
+          <a href="/works" class="{{ is_active_path('/works') ? 'is-active' : '' }}">WORKS</a>
+          <a href="/cases" class="{{ is_active_path('/cases') ? 'is-active' : '' }}">CASES</a>
+          <a href="/about" class="{{ is_active_path('/about') ? 'is-active' : '' }}">ABOUT</a>
+          <a href="/contact" class="{{ is_active_path('/contact') ? 'is-active' : '' }}">CONTACT</a>
+        </nav>
+      </aside>
+    </div>
     <main>
       {% block content %}{% endblock %}
     </main>

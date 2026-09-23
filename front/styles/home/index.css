@@ -1,11 +1,11 @@
 .hero {
   position: relative;
-  max-width: 1360px;
+  width: min(1280px, calc(100% - 40px));
   margin: auto;
-  padding: 54px 64px 30px;
+  padding: 54px 0 30px;
   display: grid;
-  grid-template-columns: minmax(0, .95fr) minmax(460px, 1.05fr);
-  gap: 72px;
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  gap: clamp(32px, 5vw, 72px);
   align-items: center;
 }
 
@@ -136,7 +136,7 @@
 .network-art {
   position: absolute;
   top: -16px;
-  right: -74px;
+  right: 0;
   bottom: -12px;
   z-index: 1;
   width: 240px;
@@ -180,16 +180,20 @@
 
 
 /* ここからスキル一覧 */
+.skills-panel {
+  width: min(1280px, calc(100% - 40px));
+  margin: 28px auto 0;
+  padding: 0;
+}
+
 .hero-skills-header {
-  max-width: 1280px;
-  margin: 28px auto 18px;
-  padding: 0 20px;
+  margin: 0 0 18px;
+  padding: 0;
 }
 
 .hero-skills {
-  max-width: 1280px;
-  margin: auto;
-  padding: 0 32px;
+  width: 100%;
+  margin: 0;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   border: 1px solid var(--color-border);
@@ -219,17 +223,18 @@
   color: var(--color-accent);
   font-family: monospace;
   font-size: 13px;
+  overflow-wrap: anywhere;
 }
 
 .hero-skills span {
   color: #dce6f5;
   font-size: 13px;
+  overflow-wrap: anywhere;
 }
 
 .section-panel {
-  max-width: 1280px;
-  margin: auto;
-  margin-top: 28px;
+  width: min(1280px, calc(100% - 40px));
+  margin: 28px auto 0;
   padding: 20px;
   border: 1px solid var(--color-border);
   border-radius: 8px;
@@ -238,10 +243,15 @@
 }
 /* スキル一覧ここまで */
 
+.hero-skills-header {
+  padding: 0 20px;
+}
+
 .section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   gap: 18px;
   margin-bottom: 18px;
 }
@@ -369,6 +379,7 @@
 .tags span,
 .work-tags span,
 .about-skill-tags span {
+  max-width: 100%;
   padding: 5px 9px;
   color: #b7c5d9;
   border: 1px solid var(--color-border);
@@ -376,6 +387,7 @@
   background: rgba(14, 22, 36, .78);
   font-family: monospace;
   font-size: 12px;
+  overflow-wrap: anywhere;
 }
 /* 実績ここまで */
 
@@ -439,10 +451,11 @@
 @media (max-width: 900px) {
   .hero {
     grid-template-columns: 1fr;
-    padding: 46px 28px 28px;
+    gap: 36px;
+    padding: 46px 0 28px;
   }
 
-  .tech-categories {
+  .hero-skills {
     grid-template-columns: repeat(3, 1fr);
   }
 
@@ -454,7 +467,7 @@
 
 @media (max-width: 600px) {
   .hero {
-    padding: 34px 20px 22px;
+    padding: 34px 0 22px;
   }
 
   .hero h1 {
@@ -474,36 +487,18 @@
     display: none;
   }
 
-  .section-panel {
-    margin-right: 16px;
-    margin-left: 16px;
-  }
-
-  .tech-categories,
+  .hero-skills,
   .works-grid,
-  .cases-grid,
-  .stack-layout {
+  .cases-grid {
     grid-template-columns: 1fr;
   }
 
-  .tech-categories {
-    margin-right: 16px;
-    margin-left: 16px;
-    padding: 0;
-  }
-
-  .tech-categories-header {
-    margin-right: 16px;
-    margin-left: 16px;
-    padding: 0 20px;
-  }
-
-  .tech-category {
+  .hero-skill {
     border-right: 0;
     border-bottom: 1px solid var(--color-border);
   }
 
-  .tech-category:last-child {
+  .hero-skill:last-child {
     border-bottom: 0;
   }
 }

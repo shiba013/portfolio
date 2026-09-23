@@ -14,6 +14,7 @@ import "../styles/works/show.css";
 import "./scripts/CasesFilter";
 import "./scripts/WorksFilter";
 import "./scripts/TopButton";
+import "./scripts/MobileMenu";
 
 // components
 
