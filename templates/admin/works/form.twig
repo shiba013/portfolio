@@ -1,0 +1,383 @@
+{% extends 'layouts/admin.twig' %}
+
+{% set editing = is_edit|default(false) %}
+
+{% block title %}
+  {{ editing ? '実績を編集' : '新規実績を作成' }} | Admin
+{% endblock %}
+
+{% block content %}
+  <div class="work-create">
+    <a href="/admin/works" class="admin-form-back-link">
+      ← 実績一覧へ戻る
+    </a>
+
+    <form
+      action="{{ editing ? '/admin/works/' ~ form.id : '/admin/works' }}"
+      method="post"
+      enctype="multipart/form-data"
+      class="work-create-form"
+      data-work-create-form
+    >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      {% if editing %}
+        <input type="hidden" name="work_id" value="{{ form.id }}">
+      {% endif %}
+
+      <header class="work-create-header">
+        <div>
+          <p class="work-create-eyebrow">WORKS MANAGEMENT</p>
+          <h1>{{ editing ? '実績を編集' : '新規実績を作成' }}</h1>
+          <p class="work-create-lead">
+            {{ editing
+              ? '登録済みの情報を編集して実績ページを更新します'
+              : '必要な情報を入力して実績ページを作成します'
+            }}
+          </p>
+        </div>
+        <div class="work-create-actions">
+          <button type="button" class="work-preview-button" data-work-preview-open>
+            <img src="/assets/images/common/eye-fill.svg" alt="" aria-hidden="true">
+            <span>プレビュー</span>
+          </button>
+          <button type="submit" class="work-save-button">
+            {{ editing ? '更新する' : '下書き保存' }}
+          </button>
+        </div>
+      </header>
+
+      {% if errors.csrf is defined %}
+        <p class="work-form-alert" role="alert">{{ errors.csrf }}</p>
+      {% endif %}
+      {% if errors.common is defined %}
+        <p class="work-form-alert" role="alert">{{ errors.common }}</p>
+      {% endif %}
+
+      <div class="work-create-sections">
+        <section class="work-form-section">
+          <div class="work-form-section-header">
+            <h2>基本情報</h2>
+            <p>一覧と詳細ページの見出しに使用されます</p>
+          </div>
+
+          <div class="work-form-fields">
+            <label class="work-form-field" for="work-title">
+              <span class="work-form-label">
+                実績名
+                <small>必須</small>
+              </span>
+              <input
+                type="text"
+                id="work-title"
+                name="title"
+                value="{{ form.title|default('') }}"
+                maxlength="255"
+                required
+              >
+              {% if errors.title is defined %}
+                <span class="work-form-error">{{ errors.title }}</span>
+              {% endif %}
+            </label>
+
+            <label class="work-form-field" for="work-slug">
+              <span class="work-form-label">
+                URLスラッグ
+                <small>必須</small>
+              </span>
+              <span class="work-slug-field">
+                <span>/works/</span>
+                <input
+                  type="text"
+                  id="work-slug"
+                  name="slug"
+                  value="{{ form.slug|default('') }}"
+                  maxlength="255"
+                  pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+                  placeholder="laravel-business-system"
+                  required
+                >
+              </span>
+              {% if errors.slug is defined %}
+                <span class="work-form-error">{{ errors.slug }}</span>
+              {% endif %}
+            </label>
+
+            <label class="work-form-field" for="work-category">
+              <span class="work-form-label">カテゴリー</span>
+              <input
+                type="text"
+                id="work-category"
+                name="category"
+                value="{{ form.category|default('') }}"
+                maxlength="100"
+                list="work-categories"
+                autocomplete="off"
+                placeholder="Full Stack"
+              >
+              <datalist id="work-categories">
+                <option value="Full Stack"></option>
+                <option value="Frontend"></option>
+                <option value="Backend"></option>
+                <option value="Web Development"></option>
+              </datalist>
+              {% if errors.category is defined %}
+                <span class="work-form-error">{{ errors.category }}</span>
+              {% endif %}
+            </label>
+
+            <label class="work-form-field" for="work-period">
+              <span class="work-form-label">制作期間</span>
+              <input
+                type="text"
+                id="work-period"
+                name="period"
+                value="{{ form.period|default('') }}"
+                maxlength="50"
+                placeholder="約1ヶ月"
+              >
+              {% if errors.period is defined %}
+                <span class="work-form-error">{{ errors.period }}</span>
+              {% endif %}
+            </label>
+          </div>
+        </section>
+
+        <section class="work-form-section">
+          <div class="work-form-section-header">
+            <h2>掲載内容</h2>
+            <p>実績の概要と詳細を入力します</p>
+          </div>
+
+          <div class="work-form-fields">
+            <label class="work-form-field" for="work-summary">
+              <span class="work-form-label">
+                概要
+                <em>一覧カードに表示</em>
+              </span>
+              <textarea
+                id="work-summary"
+                name="summary"
+                rows="4"
+                placeholder="実績の概要を入力してください"
+              >{{ form.summary|default('') }}</textarea>
+            </label>
+
+            <label class="work-form-field" for="work-description">
+              <span class="work-form-label">詳細説明</span>
+              <textarea
+                id="work-description"
+                name="description"
+                rows="7"
+                placeholder="課題、担当範囲、工夫した点、成果などを入力してください"
+              >{{ form.description|default('') }}</textarea>
+            </label>
+
+            <fieldset class="work-skill-field">
+              <legend>使用スキル</legend>
+              <div class="work-skill-options">
+                {% for skill in skills %}
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="skill_ids[]"
+                      value="{{ skill.id }}"
+                      {% if skill.id in form.skill_ids|default([]) %}checked{% endif %}
+                    >
+                    <span>{{ skill.name }}</span>
+                  </label>
+                {% endfor %}
+              </div>
+            </fieldset>
+          </div>
+        </section>
+
+        <section class="work-form-section">
+          <div class="work-form-section-header">
+            <h2>サムネイル</h2>
+            <p>一覧と詳細ページのメイン画像として表示されます</p>
+          </div>
+
+          <label class="work-thumbnail-field" for="work-thumbnail">
+            <span class="work-thumbnail-placeholder" data-work-thumbnail-placeholder>
+              {% if form.thumbnail|default('') %}
+                <img src="/uploads/{{ form.thumbnail }}" alt="登録済みのサムネイル">
+              {% else %}
+                <span>画像を選択</span>
+              {% endif %}
+            </span>
+            <span class="work-thumbnail-copy">
+              <strong>サムネイル画像</strong>
+              <span>
+                {{ editing ? '新しい画像を選択すると置き換えます・' : '' }}16:9・JPEG、PNG、WebP形式・最大5MB
+              </span>
+              <input
+                type="file"
+                id="work-thumbnail"
+                name="thumbnail"
+                accept="image/jpeg,image/png,image/webp"
+                data-work-thumbnail
+              >
+            </span>
+          </label>
+          {% if errors.thumbnail is defined %}
+            <span class="work-form-error">{{ errors.thumbnail }}</span>
+          {% endif %}
+        </section>
+
+        <section class="work-form-section">
+          <div class="work-form-section-header">
+            <h2>関連リンク</h2>
+            <p>公開サイトやソースコードへのリンクを設定します</p>
+          </div>
+
+          <div class="work-form-fields">
+            <label class="work-form-field" for="work-site-url">
+              <span class="work-form-label">公開サイトURL</span>
+              <input
+                type="url"
+                id="work-site-url"
+                name="site_url"
+                value="{{ form.site_url|default('') }}"
+                maxlength="500"
+                placeholder="https://example.com"
+              >
+              {% if errors.site_url is defined %}
+                <span class="work-form-error">{{ errors.site_url }}</span>
+              {% endif %}
+            </label>
+
+            <label class="work-form-field" for="work-github-url">
+              <span class="work-form-label">GitHub URL</span>
+              <input
+                type="url"
+                id="work-github-url"
+                name="github_url"
+                value="{{ form.github_url|default('') }}"
+                maxlength="500"
+                placeholder="https://github.com/..."
+              >
+              {% if errors.github_url is defined %}
+                <span class="work-form-error">{{ errors.github_url }}</span>
+              {% endif %}
+            </label>
+          </div>
+        </section>
+
+        <section class="work-form-section">
+          <div class="work-form-section-header">
+            <h2>公開設定</h2>
+            <p>サイトへの掲載状態と表示順を設定します</p>
+          </div>
+
+          <div class="work-publish-settings">
+            <label class="work-setting-row">
+              <span>
+                <strong>公開する</strong>
+                <small>保存後、公開サイトに表示します</small>
+              </span>
+              <span class="work-switch">
+                <input
+                  type="checkbox"
+                  name="is_public"
+                  value="1"
+                  {% if form.is_public|default(0) == 1 %}checked{% endif %}
+                >
+                <span aria-hidden="true"></span>
+              </span>
+            </label>
+
+            <label class="work-setting-row">
+              <span>
+                <strong>注目実績に表示</strong>
+                <small>トップページのRECENT WORKSに掲載します</small>
+              </span>
+              <span class="work-switch">
+                <input
+                  type="checkbox"
+                  name="is_featured"
+                  value="1"
+                  {% if form.is_featured|default(0) == 1 %}checked{% endif %}
+                >
+                <span aria-hidden="true"></span>
+              </span>
+            </label>
+
+            <label class="work-setting-row" for="work-sort-order">
+              <span>
+                <strong>表示順</strong>
+                <small>数値が小さい実績から先に表示されます</small>
+              </span>
+              <input
+                class="work-sort-order"
+                type="number"
+                id="work-sort-order"
+                name="sort_order"
+                value="{{ form.sort_order|default(0) }}"
+                step="1"
+              >
+            </label>
+            {% if errors.sort_order is defined %}
+              <span class="work-form-error">{{ errors.sort_order }}</span>
+            {% endif %}
+          </div>
+        </section>
+      </div>
+
+      {% if editing %}
+        <div class="work-delete-actions">
+          <button
+            type="submit"
+            class="work-delete-button"
+            formaction="/admin/works/{{ form.id }}/delete"
+            formmethod="post"
+            formnovalidate
+            data-confirm-delete="本当に削除しますか？"
+          >
+            削除する
+          </button>
+        </div>
+      {% endif %}
+    </form>
+  </div>
+
+  <div class="work-preview-modal" data-work-preview-modal hidden>
+    <div class="work-preview-backdrop" data-work-preview-close></div>
+    <section class="work-preview-dialog" role="dialog" aria-modal="true" aria-labelledby="work-preview-title">
+      <header class="work-preview-header">
+        <div>
+          <h2 id="work-preview-title">表示プレビュー</h2>
+          <p>入力中の内容を、現在の公開画面と同じ構成で確認できます</p>
+        </div>
+        <button type="button" data-work-preview-close aria-label="プレビューを閉じる">×</button>
+      </header>
+
+      <div class="work-preview-tabs" role="tablist" aria-label="プレビュー表示切り替え">
+        <button
+          type="button"
+          class="is-active"
+          role="tab"
+          aria-selected="true"
+          data-work-preview-tab="list"
+        >
+          一覧表示
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-work-preview-tab="detail"
+        >
+          詳細表示
+        </button>
+      </div>
+
+      <div class="work-preview-body" data-work-preview-body>
+        <p class="work-preview-loading" data-work-preview-loading>プレビューを読み込んでいます…</p>
+        <iframe
+          title="実績の表示プレビュー"
+          data-work-preview-frame
+        ></iframe>
+      </div>
+    </section>
+  </div>
+{% endblock %}

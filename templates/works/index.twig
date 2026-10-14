@@ -22,7 +22,13 @@
     </div>
     <div class="works-grid" data-works-grid>
       {% for work in publishedWorks %}
-        <a href="/works/{{ work.slug }}" class="work-card" data-work-card data-work-category="{{ work.category }}">
+        <a
+          href="/works/{{ work.slug }}"
+          class="work-card"
+          data-work-card
+          data-work-category="{{ work.category }}"
+          {% if work.is_preview|default(false) %}data-work-preview-detail{% endif %}
+        >
           {% if work.thumbnail %}
             <img src="/uploads/{{ work.thumbnail }}" alt="{{ work.title }}">
           {% else %}

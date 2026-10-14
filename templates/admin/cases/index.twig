@@ -1,0 +1,93 @@
+{% extends 'layouts/admin.twig' %}
+
+{% block title %}
+  事例一覧 | Admin
+{% endblock %}
+
+{% block content %}
+  <div class="cases-dashboard">
+    {% if success %}
+      <p class="admin-success-message" role="status">{{ success }}</p>
+    {% endif %}
+
+    {# ヘッダー #}
+    {% include 'admin/components/header.twig' with {
+      eyebrow: 'CASES MANAGEMENT',
+      title: '事例一覧',
+      action: {
+        url: '/admin/cases/create',
+        label: '＋ 新規事例を作成'
+      }
+    } only %}
+
+    {# 登録状況 #}
+    {% include 'admin/components/summary.twig' with {
+      firstCard: {
+        class: 'summary-card--cases',
+        icon: '/assets/images/common/folder-fill-g.svg',
+        label: '登録数',
+        count: caseCounts['total']
+      },
+      secondCard: {
+        class: 'summary-card--publish',
+        icon: '/assets/images/common/eye-fill.svg',
+        label: '公開中',
+        count: caseCounts['publish']
+      },
+      thirdCard: {
+        class: 'summary-card--unpublish',
+        icon: '/assets/images/common/eye-slash-fill.svg',
+        label: '非公開',
+        count: caseCounts['unpublish']
+      }
+    } only %}
+
+    {# 絞り込み #}
+    {% include 'admin/components/filter.twig' with {
+      placeholder: 'タイトルで絞り込み',
+      counts: caseCounts,
+      statusName: 'cases-status'
+    } only %}
+
+    {# テーブル #}
+    <section id="data-list">
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>事例名</th>
+              <th>公開状況</th>
+              <th>更新日</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody data-list-body>
+            {% for case in cases %}
+              <tr
+                data-list-row
+                data-search="{{ case.title }}"
+                data-status="{{ case.is_public == 1 ? 'publish' : 'unpublish' }}"
+                data-sort-order="{{ case.sort_order }}"
+                data-updated-at="{{ case.updated_at|date('Y-m-d') }}"
+              >
+                <td>{{ case.title }}</td>
+                <td>
+                  {% if case.is_public == 1 %}
+                    <span class="status-badge status-badge--publish">公開中</span>
+                  {% else %}
+                    <span class="status-badge status-badge--unpublish">非公開</span>
+                  {% endif %}
+                </td>
+                <td>{{ case.updated_at|date('Y-m-d') }}</td>
+                <td><a href="/admin/cases/{{ case.id }}/edit">詳細</a></td>
+              </tr>
+            {% endfor %}
+            <tr data-list-empty{% if cases is not empty %} hidden{% endif %}>
+              <td colspan="4">条件に一致する事例はありません</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+{% endblock %}

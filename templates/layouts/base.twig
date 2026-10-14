@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-      {% block title %}
-        portfolio
-      {% endblock %}
+      {% block title %}{% endblock %}
     </title>
     <script type="module" src="http://localhost:5173/front/react/main.tsx"></script>
   </head>
@@ -20,7 +18,7 @@
       </div>
       <nav class="header-nav" aria-label="メインメニュー">
         <a href="/" class="{{ is_active_path('/') ? 'is-active' : '' }}">HOME</a>
-        <a href="/works" class="{{ is_active_path('/works') ? 'is-active' : '' }}">WORKS</a>
+        <a href="/works" class="{{ active_nav|default('') == 'works' or is_active_path('/works') ? 'is-active' : '' }}">WORKS</a>
         <a href="/cases" class="{{ is_active_path('/cases') ? 'is-active' : '' }}">CASES</a>
         <a href="/about" class="{{ is_active_path('/about') ? 'is-active' : '' }}">ABOUT</a>
         <a href="/contact" class="{{ is_active_path('/contact') ? 'is-active' : '' }}">CONTACT</a>
@@ -36,7 +34,7 @@
       <aside class="mobile-menu-drawer" aria-label="モバイルメニュー">
         <nav>
           <a href="/" class="{{ is_active_path('/') ? 'is-active' : '' }}">HOME</a>
-          <a href="/works" class="{{ is_active_path('/works') ? 'is-active' : '' }}">WORKS</a>
+          <a href="/works" class="{{ active_nav|default('') == 'works' or is_active_path('/works') ? 'is-active' : '' }}">WORKS</a>
           <a href="/cases" class="{{ is_active_path('/cases') ? 'is-active' : '' }}">CASES</a>
           <a href="/about" class="{{ is_active_path('/about') ? 'is-active' : '' }}">ABOUT</a>
           <a href="/contact" class="{{ is_active_path('/contact') ? 'is-active' : '' }}">CONTACT</a>

@@ -74,7 +74,13 @@ CREATE TABLE works (
     is_featured,
     sort_order,
     id
+  ),
+
+  -- 件数取得時に全件走査させないようにする
+  INDEX idx_works_public(
+    is_public
   )
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE cases (
@@ -133,12 +139,18 @@ CREATE TABLE cases (
   ),
 
   -- 注目表示のケース記事を取得しやすくするためのインデックス
-  INDEX idx_cases_publish_featured_sort_id (
+  INDEX idx_cases_public_featured_sort_id (
     is_public,
     is_featured,
     sort_order,
     id
+  ),
+
+  -- 件数取得時に全件走査させないようにする
+  INDEX idx_cases_public(
+    is_public
   )
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE skills (
@@ -181,7 +193,13 @@ CREATE TABLE skills (
     category,
     sort_order,
     id
+  ),
+
+  -- 件数取得時に全件走査させないようにする
+  INDEX idx_skills_public(
+    is_public
   )
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE work_skills (
@@ -283,5 +301,11 @@ CREATE TABLE contacts(
   INDEX idx_contacts_status_created_at(
     status,
     created_at
+  ),
+
+  -- 未対応件数取得時に全件走査させないようにする
+  INDEX idx_contacts_status(
+    status
   )
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

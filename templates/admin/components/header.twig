@@ -1,0 +1,25 @@
+<header class="dashboard-header">
+  <div>
+    <p class="dashboard-eyebrow">{{ eyebrow }}</p>
+    <h1 class="dashboard-title">{{ title }}</h1>
+  </div>
+
+  {% if action is defined %}
+    <div>
+      <a
+        href="{{ action.url }}"
+        {% if action.class is defined %}
+        class="{{ action.class }}"
+        {% endif %}
+        {% if action.target is defined %}
+        target="{{ action.target }}"
+        {% endif %}
+      >
+        {% if action.icon is defined %}
+          <img src="{{ action.icon }}">
+        {% endif %}
+        <span>{{ action.label }}</span>
+      </a>
+    </div>
+  {% endif %}
+</header>

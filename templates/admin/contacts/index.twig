@@ -1,0 +1,214 @@
+{% extends 'layouts/admin.twig' %}
+
+{% block title %}
+  問い合わせ | Admin
+{% endblock %}
+
+{% block content %}
+  <div class="contacts-dashboard">
+    <header class="dashboard-header contacts-header">
+      <div>
+        <p class="dashboard-eyebrow">CONTACT MANAGEMENT</p>
+        <h1 class="dashboard-title">問い合わせ</h1>
+      </div>
+      <p class="contacts-date">
+        <span>{{ currentDate }}</span>
+        <span>{{ currentWeekday }}</span>
+      </p>
+    </header>
+
+    <section class="contacts-overview">
+      <article class="next-action">
+        <div class="next-action-heading">
+          <p>NEXT ACTION</p>
+          <span aria-hidden="true"></span>
+        </div>
+
+        <div class="next-action-summary">
+          <p class="next-action-count">{{ needsReply|length }}<span>件</span></p>
+          <h2>返信が必要です</h2>
+        </div>
+
+        {% if needsReply is not empty %}
+          <div class="next-action-list">
+            {% for contact in needsReply %}
+              <a
+                href="/admin/contacts/{{ contact.id }}"
+                class="next-action-item"
+              >
+                <span class="next-action-item-number">{{ loop.index }}</span>
+                <span>
+                  <strong>{{ contact.subject }}</strong>
+                  <small>
+                    {{ contact.name }} · {{ contact.created_at|date('n月j日 H:i') }}
+                  </small>
+                </span>
+                <span class="next-action-item-arrow">→</span>
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="next-action-empty">現在、返信が必要な問い合わせはありません。</p>
+        {% endif %}
+      </article>
+
+      {% include 'admin/components/summary.twig' with {
+        firstCard: {
+          class: 'summary-card--contact-handled',
+          icon: '/assets/images/common/hand-thumbs-up-fill.svg',
+          label: '対応済み',
+          count: contactCounts.handled
+        },
+        secondCard: {
+          class: 'summary-card--contact-unhandled',
+          icon: '/assets/images/common/exclamation-lg.svg',
+          label: '未対応',
+          count: contactCounts.unhandled
+        },
+        thirdCard: {
+          class: 'summary-card--contact-today',
+          icon: '/assets/images/common/clock-fill.svg',
+          label: '本日期限',
+          count: contactCounts.due_today
+        },
+        fourthCard: {
+          class: 'summary-card--contact-week',
+          icon: '/assets/images/common/arrow-up-right.svg',
+          label: '今週の対応',
+          count: contactCounts.handled_this_week
+        }
+      } only %}
+    </section>
+
+    <section class="contacts-list-section">
+      <div class="contacts-list-heading">
+        <p class="dashboard-eyebrow">CONTACT LIST</p>
+        <h2 id="contacts-list-title">問い合わせ一覧</h2>
+      </div>
+
+      <section
+        class="filter contacts-filter"
+        data-list-controls
+        data-target="#contacts-data-list"
+      >
+        <div class="filter-search">
+          <input
+            type="search"
+            placeholder="タイトル、差出人で検索"
+            data-list-search
+          >
+        </div>
+
+        <div class="filter-status">
+          <label>
+            <input
+              type="radio"
+              name="contacts-status"
+              value="all"
+              data-list-status
+              checked
+            >
+            <span>すべて {{ contactCounts.total }}</span>
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="contacts-status"
+              value="handled"
+              data-list-status
+            >
+            <span>対応済み {{ contactCounts.handled }}</span>
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="contacts-status"
+              value="unhandled"
+              data-list-status
+            >
+            <span>未対応 {{ contactCounts.unhandled }}</span>
+          </label>
+        </div>
+
+        <div class="filter-sort">
+          <select aria-label="問い合わせの並び順" data-list-sort>
+            <option
+              value="created-desc"
+              data-sort-key="createdAt"
+              data-sort-type="number"
+              data-sort-direction="desc"
+            >
+              新着問い合わせ順（降順）
+            </option>
+            <option
+              value="created-asc"
+              data-sort-key="createdAt"
+              data-sort-type="number"
+              data-sort-direction="asc"
+            >
+              新着問い合わせ順（昇順）
+            </option>
+          </select>
+        </div>
+      </section>
+
+      <div id="contacts-data-list">
+        <div class="data-table-wrap">
+          <table class="data-table contacts-table">
+            <thead>
+              <tr>
+                <th scope="col">タイトル</th>
+                <th scope="col">差出人</th>
+                <th scope="col">受信日時</th>
+                <th scope="col">ステータス</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody data-list-body>
+              {% for contact in contacts %}
+                <tr
+                  data-list-row
+                  data-search="{{ contact.subject }} {{ contact.name }}"
+                  data-status="{{ contact.status == 2 ? 'handled' : 'unhandled' }}"
+                  data-created-at="{{ contact.created_at|date('U') }}"
+                >
+                  <td>
+                    <strong class="contact-subject">{{ contact.subject }}</strong>
+                    <span class="contact-preview">{{ contact.message|striptags|slice(0, 54) }}{% if contact.message|length > 54 %}…{% endif %}</span>
+                  </td>
+                  <td>
+                    <strong class="contact-name">{{ contact.name }}</strong>
+                    <a class="contact-email" href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+                  </td>
+                  <td>
+                    <time datetime="{{ contact.created_at|date('c') }}">
+                      {{ contact.created_at|date('Y.m.d H:i') }}
+                    </time>
+                  </td>
+                  <td>
+                    {% if contact.status == 2 %}
+                      <span class="status-badge status-badge--handled">対応済み</span>
+                    {% elseif contact.status == 1 %}
+                      <span class="status-badge status-badge--progress">対応中</span>
+                    {% else %}
+                      <span class="status-badge status-badge--unhandled">未対応</span>
+                    {% endif %}
+                  </td>
+                  <td>
+                    <a
+                      href="/admin/contacts/{{ contact.id }}"
+                      class="contact-detail-link"
+                    >詳細</a>
+                  </td>
+                </tr>
+              {% endfor %}
+              <tr data-list-empty{% if contacts is not empty %} hidden{% endif %}>
+                <td colspan="5">条件に一致する問い合わせはありません</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+{% endblock %}

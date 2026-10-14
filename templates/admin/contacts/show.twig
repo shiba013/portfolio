@@ -1,0 +1,157 @@
+{% extends 'layouts/admin.twig' %}
+
+{% block title %}
+  {{ contact.subject }} | 問い合わせ | Admin
+{% endblock %}
+
+{% block content %}
+  <div class="contact-detail">
+    <a href="/admin/contacts" class="contact-detail-back-link">
+      ← 問い合わせ一覧へ
+    </a>
+
+    <header class="contact-detail-header">
+      <div>
+        <p class="dashboard-eyebrow">CONTACT DETAIL</p>
+        <div class="contact-detail-title-row">
+          <h1>{{ contact.subject }}</h1>
+          {% set currentStatus = form.status|default(contact.status) %}
+          {% if currentStatus == 2 %}
+            <span class="status-badge status-badge--handled">対応済み</span>
+          {% elseif currentStatus == 1 %}
+            <span class="status-badge status-badge--progress">対応中</span>
+          {% else %}
+            <span class="status-badge status-badge--unhandled">未対応</span>
+          {% endif %}
+        </div>
+        <p class="contact-detail-received-at">
+          <span>受信日時</span>
+          <time datetime="{{ contact.created_at|date('c') }}">
+            {{ contact.created_at|date('Y.m.d H:i') }}
+          </time>
+        </p>
+      </div>
+    </header>
+
+    {% if success %}
+      <p class="contact-detail-message contact-detail-message--success" role="status">
+        {{ success }}
+      </p>
+    {% endif %}
+    {% if errors.csrf is defined %}
+      <p class="contact-detail-message contact-detail-message--error" role="alert">
+        {{ errors.csrf }}
+      </p>
+    {% endif %}
+    {% if errors.common is defined %}
+      <p class="contact-detail-message contact-detail-message--error" role="alert">
+        {{ errors.common }}
+      </p>
+    {% endif %}
+
+    <div class="contact-detail-workspace">
+      <section class="contact-detail-card contact-detail-content" aria-labelledby="contact-content-title">
+        <header class="contact-detail-card-header">
+          <h2 id="contact-content-title">問い合わせ内容</h2>
+        </header>
+
+        <dl class="contact-detail-fields">
+          <div>
+            <dt>差出人</dt>
+            <dd>{{ contact.name }}</dd>
+          </div>
+          <div>
+            <dt>メールアドレス</dt>
+            <dd>
+              <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+            </dd>
+          </div>
+          <div>
+            <dt>本文</dt>
+            <dd class="contact-detail-body">{{ contact.message|nl2br }}</dd>
+          </div>
+        </dl>
+        <a
+          class="contact-reply-button"
+          href="mailto:{{ contact.email }}?subject={{ ('Re: ' ~ contact.subject)|url_encode }}"
+          target="_blank"
+        >
+          <img src="/assets/images/common/send.svg">
+          <span>メールで返信する</span>
+        </a>
+      </section>
+
+      <section class="contact-detail-card contact-management" aria-labelledby="contact-management-title">
+        <header class="contact-detail-card-header">
+          <h2 id="contact-management-title">対応管理</h2>
+        </header>
+
+        <form action="/admin/contacts/{{ contact.id }}" method="post" class="contact-management-form">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+          <fieldset class="contact-status-field">
+            <legend>ステータス</legend>
+            <div class="contact-status-options">
+              <label>
+                <input type="radio" name="status" value="0" {% if currentStatus == 0 %}checked{% endif %}>
+                <span>未対応</span>
+              </label>
+              <label>
+                <input type="radio" name="status" value="1" {% if currentStatus == 1 %}checked{% endif %}>
+                <span>対応中</span>
+              </label>
+              <label>
+                <input type="radio" name="status" value="2" {% if currentStatus == 2 %}checked{% endif %}>
+                <span>対応済み</span>
+              </label>
+            </div>
+            {% if errors.status is defined %}
+              <span class="contact-detail-field-error">{{ errors.status }}</span>
+            {% endif %}
+          </fieldset>
+
+          <label class="contact-memo-field" for="contact-memo">
+            <span>管理メモ</span>
+            <textarea
+              id="contact-memo"
+              name="memo"
+              rows="7"
+              maxlength="2000"
+              placeholder="対応内容や引き継ぎ事項を入力"
+            >{{ form.memo|default('') }}</textarea>
+          </label>
+
+          <div class="contact-management-actions">
+            <button type="submit" class="contact-save-button">変更を保存</button>
+            {% if currentStatus != 2 %}
+              <button type="submit" name="action" value="complete" class="contact-complete-button">
+                対応済みにする
+              </button>
+            {% endif %}
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <section class="contact-detail-card contact-history" aria-labelledby="contact-history-title">
+      <header class="contact-detail-card-header">
+        <h2 id="contact-history-title">対応履歴</h2>
+      </header>
+      <ol class="contact-history-list">
+        {% for historyItem in contactHistory %}
+          <li>
+            <span class="contact-history-icon" aria-hidden="true">
+              <img src="{{ historyItem.icon }}" alt="">
+            </span>
+            <span>
+              <strong>{{ historyItem.label }}</strong>
+              <time datetime="{{ historyItem.occurred_at|date('c') }}">
+                {{ historyItem.occurred_at|date('Y.m.d H:i') }}
+              </time>
+            </span>
+          </li>
+        {% endfor %}
+      </ol>
+    </section>
+  </div>
+{% endblock %}

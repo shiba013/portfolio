@@ -6,7 +6,11 @@
 
 {% block content %}
   <div class="work-detail">
-    <a href="/works" class="back-link">← WORKS一覧に戻る</a>
+    <a
+      href="/works"
+      class="back-link"
+      {% if work.is_preview|default(false) %}data-work-preview-list{% endif %}
+    >← WORKS一覧に戻る</a>
     <div class="work-detail-content">
       <div class="work-detail-image">
         {% if work.thumbnail %}
@@ -40,7 +44,7 @@
         <div class="work-detail-actions">
           {# {% if work.site_url %} #}
           <a href="{{ work.site_url }}" class="button-primary" target="_blank">
-            <img src="/assets/images/common/box-arrow-up-right.svg" alt="" aria-hidden="true" width="16px" height="16px">
+            <img src="/assets/images/common/box-arrow-up-right.svg">
             <span>サイトを見る</span>
           </a>
           {# {% endif %} #}

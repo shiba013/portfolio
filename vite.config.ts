@@ -12,6 +12,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "front/react/main.tsx",
+        admin: "front/react/admin.tsx",
       },
     },
   },

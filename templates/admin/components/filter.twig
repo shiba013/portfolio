@@ -1,0 +1,73 @@
+<section
+  class="filter"
+  data-list-controls
+  data-target="#data-list"
+>
+  <div class="filter-search">
+    <input
+      type="search"
+      placeholder="{{ placeholder }}"
+      data-list-search
+    >
+  </div>
+  <div class="filter-status">
+    <label>
+      <input
+        type="radio"
+        name="{{ statusName|default('list-status') }}"
+        value="all"
+        data-list-status
+        checked
+      >
+      <span>すべて {{ counts.total }}</span>
+    </label>
+    <label>
+      <input
+        type="radio"
+        name="{{ statusName|default('list-status') }}"
+        value="publish"
+        data-list-status
+      >
+      <span>公開中 {{ counts.publish }}</span>
+    </label>
+    <label>
+      <input
+        type="radio"
+        name="{{ statusName|default('list-status') }}"
+        value="unpublish"
+        data-list-status
+      >
+      <span>非公開 {{ counts.unpublish }}</span>
+    </label>
+  </div>
+  <div class="filter-sort">
+    <select aria-label="並び順" data-list-sort>
+      <option
+        value="sort-order"
+        data-sort-key="sortOrder"
+        data-sort-type="number"
+        data-sort-direction="asc"
+      >
+        表示順
+      </option>
+      <option
+        value="updated-desc"
+        data-sort-key="updatedAt"
+        data-sort-type="number"
+        data-sort-direction="desc"
+      >
+        更新日の新しい順
+      </option>
+
+      <option
+        value="updated-asc"
+        data-sort-key="updatedAt"
+        data-sort-type="number"
+        data-sort-direction="asc"
+      >
+        更新日の古い順
+      </option>
+    </select>
+  </div>
+</section>
+

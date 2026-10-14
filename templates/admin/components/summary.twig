@@ -1,0 +1,87 @@
+<section class="dashboard-summary">
+  {% if firstCard is defined %}
+    <article class="summary-card {{ firstCard.class }}">
+      <div class="summary-card-icon">
+        <img src="{{ firstCard.icon }}">
+      </div>
+      <div>
+        <p class="summary-card-label">{{ firstCard.label }}</p>
+        <p class="summary-card-count">
+          {{ firstCard.count }}<span>件</span>
+        </p>
+      </div>
+      {# トップページ用 #}
+      {% if firstCard.breakdown is defined %}
+        <p class="summary-card-breakdown">
+          {{ firstCard.breakdown.publishLabel }}
+          <strong>{{ firstCard.breakdown.publishCount }}</strong>
+          <span>/</span>
+          {{ firstCard.breakdown.unpublishLabel }}
+          <em>{{ firstCard.breakdown.unpublishCount }}</em>
+        </p>
+      {% endif %}
+    </article>
+  {% endif %}
+
+  {% if secondCard is defined %}
+    <article class="summary-card {{ secondCard.class }}">
+      <div class="summary-card-icon">
+        <img src="{{ secondCard.icon }}">
+      </div>
+      <div>
+        <p class="summary-card-label">{{ secondCard.label }}</p>
+        <p class="summary-card-count">
+          {{ secondCard.count }}<span>件</span>
+        </p>
+      </div>
+      {# トップページ用 #}
+      {% if secondCard.breakdown is defined %}
+        <p class="summary-card-breakdown">
+          {{ secondCard.breakdown.publishLabel }}
+          <strong>{{ secondCard.breakdown.publishCount }}</strong>
+          <span>/</span>
+          {{ secondCard.breakdown.unpublishLabel }}
+          <em>{{ secondCard.breakdown.unpublishCount }}</em>
+        </p>
+      {% endif %}
+    </article>
+  {% endif %}
+
+  {% if thirdCard is defined %}
+    <article class="summary-card {{ thirdCard.class }}">
+      <div class="summary-card-icon">
+        <img src="{{ thirdCard.icon }}">
+      </div>
+      <div>
+        <p class="summary-card-label">{{ thirdCard.label }}</p>
+        <p class="summary-card-count">
+          {{ thirdCard.count }}<span>件</span>
+        </p>
+      </div>
+      {# トップページ用 #}
+      {% if thirdCard.breakdown is defined %}
+        <p class="summary-card-breakdown">
+          {{ thirdCard.breakdown.publishLabel }}
+          <strong>{{ thirdCard.breakdown.publishCount }}</strong>
+          <span>/</span>
+          {{ thirdCard.breakdown.unpublishLabel }}
+          <em>{{ thirdCard.breakdown.unpublishCount }}</em>
+        </p>
+      {% endif %}
+    </article>
+  {% endif %}
+
+  {% if fourthCard is defined %}
+    <article class="summary-card {{ fourthCard.class }}">
+      <div class="summary-card-icon">
+        <img src="{{ fourthCard.icon }}">
+      </div>
+      <div>
+        <p class="summary-card-label">{{ fourthCard.label }}</p>
+        <p class="summary-card-count">
+          {{ fourthCard.count }}<span>件</span>
+        </p>
+      </div>
+    </article>
+  {% endif %}
+</section>

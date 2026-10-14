@@ -1,0 +1,97 @@
+{% extends 'layouts/admin.twig' %}
+
+{% block title %}
+  実績一覧 | Admin
+{% endblock %}
+
+{% block content %}
+  <div class="works-dashboard">
+    {% if success %}
+      <p class="admin-success-message" role="status">{{ success }}</p>
+    {% endif %}
+
+    {# ヘッダー #}
+    {% include 'admin/components/header.twig' with {
+        eyebrow: 'WORKS MANAGEMENT',
+        title: '実績一覧',
+        action: {
+          url: '/admin/works/create',
+          label: '＋ 新規実績を作成'
+        }
+      } only %}
+
+    {# 登録状況 #}
+    {% include 'admin/components/summary.twig' with {
+      firstCard: {
+        class: 'summary-card--works',
+        icon: '/assets/images/common/file-text-n.svg',
+        label: '登録数',
+        count: workCounts['total']
+      },
+      secondCard: {
+        class: 'summary-card--publish',
+        icon: '/assets/images/common/eye-fill.svg',
+        label: '公開中',
+        count: workCounts['publish']
+      },
+      thirdCard: {
+        class: 'summary-card--unpublish',
+        icon: '/assets/images/common/eye-slash-fill.svg',
+        label: '非公開',
+        count: workCounts['unpublish']
+      }
+    } only %}
+
+    {# 絞り込み #}
+    {% include 'admin/components/filter.twig' with {
+      placeholder: 'タイトル、カテゴリーで検索',
+      counts: workCounts,
+      statusName: 'works-status'
+    } only %}
+
+    {# テーブル #}
+    <section id="data-list">
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th scope="col">実績名</th>
+              <th scope="col">カテゴリー</th>
+              <th scope="col">公開状況</th>
+              <th scope="col">更新日</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody data-list-body>
+            {% for work in works %}
+              <tr
+                data-list-row
+                data-search="{{ work.title }} {{ work.category }}"
+                data-status="{{ work.is_public == 1 ? 'publish' : 'unpublish' }}"
+                data-sort-order="{{ work.sort_order }}"
+                data-updated-at="{{ work.updated_at|date('Y-m-d') }}"
+              >
+                <td>{{ work.title }}</td>
+                <td>{{ work.category }}</td>
+                <td>
+                  {% if work.is_public == 1 %}
+                    <span class="status-badge status-badge--publish">公開中</span>
+                  {% else %}
+                    <span class="status-badge status-badge--unpublish">非公開</span>
+                  {% endif %}
+                </td>
+                <td>{{ work.updated_at|date('Y-m-d') }}</td>
+                <td>
+                  <a href="/admin/works/{{ work.id }}/edit">詳細</a>
+                </td>
+              </tr>
+            {% endfor %}
+            <tr data-list-empty{% if works is not empty %} hidden{% endif %}>
+              <td colspan="5">条件に一致する実績はありません</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+{% endblock %}

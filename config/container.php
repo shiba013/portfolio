@@ -37,13 +37,14 @@ $builder->addDefinitions([
       ]
     );
 
-    // ヘッダーにis-activeクラスを付与
+    // ヘッダーやサイドバーにis-activeクラスを付与
+    // s_active_path に第2引数を追加することで完全一致のみ判定
     $twig->getEnvironment()->addFunction(
-      new TwigFunction('is_active_path', function ($path) {
+      new TwigFunction('is_active_path', function ($path, $includeChildren = true) {
         $currentPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 
-        if ($path === '/') {
-          return $currentPath === '/';
+        if ($path === '/' || !$includeChildren) {
+          return $currentPath === $path;
         }
 
         return $currentPath === $path || str_starts_with($currentPath, $path . '/');

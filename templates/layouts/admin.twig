@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <script type="module" src="http://localhost:5173/front/react/admin.tsx"></script>
+  </head>
+  <body class="admin-body">
+    <aside class="sidebar" aria-label="管理メニュー">
+      <a class="sidebar-brand" href="/admin" aria-label="管理画面トップ">
+        <span class="sidebar-brand-mark">&gt;_</span>
+        <span>
+          <strong>SHIBAHARA</strong>
+          <small>ADMIN</small>
+        </span>
+      </a>
+
+      <nav class="sidebar-nav" aria-label="管理画面ナビゲーション">
+        <a href="/admin" class="{{ is_active_path('/admin', false) ? 'is-active' : '' }}">
+          <img src="/assets/images/common/house-door-fill.svg">
+          <span>Home</span>
+        </a>
+        <a href="/admin/works" class="{{ is_active_path('/admin/works') ? 'is-active' : '' }}">
+          <img src="/assets/images/common/file-text.svg">
+          <span>実績</span>
+        </a>
+        <a href="/admin/cases" class="{{ is_active_path('/admin/cases') ? 'is-active' : '' }}">
+          <img src="/assets/images/common/folder-fill.svg">
+          <span>事例</span>
+        </a>
+        <a href="/admin/skills" class="{{ is_active_path('/admin/skills') ? 'is-active' : '' }}">
+          <img src="/assets/images/common/bar-chart-fill.svg">
+          <span>スキル</span>
+        </a>
+        <a href="/admin/contacts" class="{{ is_active_path('/admin/contacts') ? 'is-active' : '' }}">
+          <img src="/assets/images/common/envelope-fill.svg">
+          <span>問い合わせ</span>
+        </a>
+        {# <a href="/admin/settings" class="{{ is_active_path('/admin/settings') ? 'is-active' : '' }}">
+          <img src="/assets/images/common/gear-fill.svg">
+          <span>設定</span>
+        </a> #}
+      </nav>
+    </aside>
+    <main class="admin-main">
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

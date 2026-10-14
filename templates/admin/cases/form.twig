@@ -1,0 +1,363 @@
+{% extends 'layouts/admin.twig' %}
+
+{% set editing = is_edit|default(false) %}
+
+{% block title %}
+  {{ editing ? '事例を編集' : '新規事例を作成' }} | Admin
+{% endblock %}
+
+{% block content %}
+  <div class="work-create">
+    <a href="/admin/cases" class="admin-form-back-link">
+      ← 事例一覧へ戻る
+    </a>
+
+    <form
+      action="{{ editing ? '/admin/cases/' ~ form.id : '/admin/cases' }}"
+      method="post"
+      class="work-create-form"
+      data-case-create-form
+    >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      {% if editing %}
+        <input type="hidden" name="case_id" value="{{ form.id }}">
+      {% endif %}
+
+      <header class="work-create-header">
+        <div>
+          <p class="work-create-eyebrow">CASES MANAGEMENT</p>
+          <h1>{{ editing ? '事例を編集' : '新規事例を作成' }}</h1>
+          <p class="work-create-lead">
+            {{ editing
+              ? '登録済みの情報を編集して事例ページを更新します'
+              : '課題と解決内容を入力して事例ページを作成します'
+            }}
+          </p>
+        </div>
+        <div class="work-create-actions">
+          <button type="button" class="work-preview-button" data-case-preview-open>
+            <img src="/assets/images/common/eye-fill.svg" alt="" aria-hidden="true">
+            <span>プレビュー</span>
+          </button>
+          <button type="submit" class="work-save-button">
+            {{ editing ? '更新する' : '下書き保存' }}
+          </button>
+        </div>
+      </header>
+
+      {% if errors.csrf is defined %}
+        <p class="work-form-alert" role="alert">{{ errors.csrf }}</p>
+      {% endif %}
+      {% if errors.common is defined %}
+        <p class="work-form-alert" role="alert">{{ errors.common }}</p>
+      {% endif %}
+
+      <div class="work-create-sections">
+        <section class="work-form-section">
+          <div class="work-form-section-header">
+            <h2>基本情報</h2>
+            <p>一覧と詳細ページの見出しに使用されます</p>
+          </div>
+
+          <div class="work-form-fields">
+            <label class="work-form-field" for="case-title">
+              <span class="work-form-label">
+                事例名
+                <small>必須</small>
+              </span>
+              <input
+                type="text"
+                id="case-title"
+                name="title"
+                value="{{ form.title|default('') }}"
+                maxlength="255"
+                required
+              >
+              {% if errors.title is defined %}
+                <span class="work-form-error">{{ errors.title }}</span>
+              {% endif %}
+            </label>
+
+            <label class="work-form-field" for="case-slug">
+              <span class="work-form-label">
+                URLスラッグ
+                <small>必須</small>
+              </span>
+              <span class="work-slug-field">
+                <span>/cases/</span>
+                <input
+                  type="text"
+                  id="case-slug"
+                  name="slug"
+                  value="{{ form.slug|default('') }}"
+                  maxlength="255"
+                  pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
+                  placeholder="legacy-system-migration"
+                  required
+                >
+              </span>
+              {% if errors.slug is defined %}
+                <span class="work-form-error">{{ errors.slug }}</span>
+              {% endif %}
+            </label>
+
+            <label class="work-form-field" for="case-summary">
+              <span class="work-form-label">
+                概要
+                <em>一覧カードに表示</em>
+              </span>
+              <textarea
+                id="case-summary"
+                name="summary"
+                rows="4"
+                placeholder="事例の概要を入力してください"
+              >{{ form.summary|default('') }}</textarea>
+            </label>
+          </div>
+        </section>
+
+        <section class="work-form-section">
+          <div class="work-form-section-header">
+            <h2>課題と解決内容</h2>
+            <p>発生した問題から対応結果までを順番に入力します</p>
+          </div>
+
+          <div class="work-form-fields">
+            <label class="work-form-field" for="case-problem">
+              <span class="work-form-label">発生した問題</span>
+              <textarea
+                id="case-problem"
+                name="problem"
+                rows="5"
+                placeholder="どのような問題が発生したかを入力してください"
+              >{{ form.problem|default('') }}</textarea>
+            </label>
+
+            <label class="work-form-field" for="case-investigation">
+              <span class="work-form-label">原因調査</span>
+              <textarea
+                id="case-investigation"
+                name="investigation"
+                rows="5"
+                placeholder="調査した内容や判明した原因を入力してください"
+              >{{ form.investigation|default('') }}</textarea>
+            </label>
+
+            <label class="work-form-field" for="case-solution">
+              <span class="work-form-label">解決方法</span>
+              <textarea
+                id="case-solution"
+                name="solution"
+                rows="5"
+                placeholder="実施した解決策を入力してください"
+              >{{ form.solution|default('') }}</textarea>
+            </label>
+
+            <label class="work-form-field" for="case-result">
+              <span class="work-form-label">対応結果</span>
+              <textarea
+                id="case-result"
+                name="result"
+                rows="5"
+                placeholder="改善した内容や成果を入力してください"
+              >{{ form.result|default('') }}</textarea>
+            </label>
+          </div>
+        </section>
+
+        <section class="work-form-section">
+          <div class="work-form-section-header">
+            <h2>ビジュアル表示</h2>
+            <p>詳細ページ下部に表示するログや構成図の内容を設定します</p>
+          </div>
+
+          <div class="work-form-fields">
+            <label class="work-form-field" for="case-visual-type">
+              <span class="work-form-label">
+                表示タイプ
+                <small>必須</small>
+              </span>
+              <input
+                type="text"
+                id="case-visual-type"
+                name="visual_type"
+                value="{{ form.visual_type|default('terminal') }}"
+                maxlength="50"
+                pattern="[a-z0-9]+(?:[-_][a-z0-9]+)*"
+                list="case-visual-types"
+                placeholder="terminal"
+                required
+              >
+              <datalist id="case-visual-types">
+                <option value="terminal"></option>
+                <option value="sql"></option>
+                <option value="architecture"></option>
+                <option value="checklist"></option>
+                <option value="diff"></option>
+              </datalist>
+              {% if errors.visual_type is defined %}
+                <span class="work-form-error">{{ errors.visual_type }}</span>
+              {% endif %}
+            </label>
+
+            <label class="work-form-field" for="case-visual-body">
+              <span class="work-form-label">
+                表示内容
+                <small>必須</small>
+              </span>
+              <textarea
+                id="case-visual-body"
+                name="visual_body"
+                rows="12"
+                placeholder="ログ、SQL、構成図などを入力してください"
+                required
+              >{{ form.visual_body|default('') }}</textarea>
+              {% if errors.visual_body is defined %}
+                <span class="work-form-error">{{ errors.visual_body }}</span>
+              {% endif %}
+            </label>
+          </div>
+        </section>
+
+        <section class="work-form-section">
+          <div class="work-form-section-header">
+            <h2>使用スキル</h2>
+            <p>事例に関連するスキルを選択します</p>
+          </div>
+
+          <fieldset class="work-skill-field">
+            <legend>関連スキル</legend>
+            <div class="work-skill-options">
+              {% for skill in skills %}
+                <label>
+                  <input
+                    type="checkbox"
+                    name="skill_ids[]"
+                    value="{{ skill.id }}"
+                    {% if skill.id in form.skill_ids|default([]) %}checked{% endif %}
+                  >
+                  <span>{{ skill.name }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          </fieldset>
+        </section>
+
+        <section class="work-form-section">
+          <div class="work-form-section-header">
+            <h2>公開設定</h2>
+            <p>サイトへの掲載状態と表示順を設定します</p>
+          </div>
+
+          <div class="work-publish-settings">
+            <label class="work-setting-row">
+              <span>
+                <strong>公開する</strong>
+                <small>保存後、公開サイトに表示します</small>
+              </span>
+              <span class="work-switch">
+                <input
+                  type="checkbox"
+                  name="is_public"
+                  value="1"
+                  {% if form.is_public|default(0) == 1 %}checked{% endif %}
+                >
+                <span aria-hidden="true"></span>
+              </span>
+            </label>
+
+            <label class="work-setting-row">
+              <span>
+                <strong>注目事例に表示</strong>
+                <small>トップページの事例一覧に掲載します</small>
+              </span>
+              <span class="work-switch">
+                <input
+                  type="checkbox"
+                  name="is_featured"
+                  value="1"
+                  {% if form.is_featured|default(0) == 1 %}checked{% endif %}
+                >
+                <span aria-hidden="true"></span>
+              </span>
+            </label>
+
+            <label class="work-setting-row" for="case-sort-order">
+              <span>
+                <strong>表示順</strong>
+                <small>数値が小さい事例から先に表示されます</small>
+              </span>
+              <input
+                class="work-sort-order"
+                type="number"
+                id="case-sort-order"
+                name="sort_order"
+                value="{{ form.sort_order|default(0) }}"
+                step="1"
+              >
+            </label>
+            {% if errors.sort_order is defined %}
+              <span class="work-form-error">{{ errors.sort_order }}</span>
+            {% endif %}
+          </div>
+        </section>
+      </div>
+
+      {% if editing %}
+        <div class="work-delete-actions">
+          <button
+            type="submit"
+            class="work-delete-button"
+            formaction="/admin/cases/{{ form.id }}/delete"
+            formmethod="post"
+            formnovalidate
+            data-confirm-delete="本当に削除しますか？"
+          >
+            削除する
+          </button>
+        </div>
+      {% endif %}
+    </form>
+  </div>
+
+  <div class="work-preview-modal" data-case-preview-modal hidden>
+    <div class="work-preview-backdrop" data-case-preview-close></div>
+    <section class="work-preview-dialog" role="dialog" aria-modal="true" aria-labelledby="case-preview-title">
+      <header class="work-preview-header">
+        <div>
+          <h2 id="case-preview-title">表示プレビュー</h2>
+          <p>入力中の内容を、現在の公開画面と同じ構成で確認できます</p>
+        </div>
+        <button type="button" data-case-preview-close aria-label="プレビューを閉じる">×</button>
+      </header>
+
+      <div class="work-preview-tabs" role="tablist" aria-label="プレビュー表示切り替え">
+        <button
+          type="button"
+          class="is-active"
+          role="tab"
+          aria-selected="true"
+          data-case-preview-tab="list"
+        >
+          一覧表示
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected="false"
+          data-case-preview-tab="detail"
+        >
+          詳細表示
+        </button>
+      </div>
+
+      <div class="work-preview-body" data-case-preview-body>
+        <p class="work-preview-loading">プレビューを読み込んでいます…</p>
+        <iframe
+          title="事例の表示プレビュー"
+          data-case-preview-frame
+        ></iframe>
+      </div>
+    </section>
+  </div>
+{% endblock %}

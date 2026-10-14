@@ -1,0 +1,95 @@
+{% extends 'layouts/admin.twig' %}
+
+{% block title %}
+  スキル一覧 | Admin
+{% endblock %}
+
+{% block content %}
+  <div class="skills-dashboard">
+    {% if success %}
+      <p class="admin-success-message" role="status">{{ success }}</p>
+    {% endif %}
+
+    {# ヘッダー #}
+    {% include 'admin/components/header.twig' with {
+      eyebrow: 'SKILLS DASHBOARD',
+      title: 'スキル一覧',
+      action: {
+        url: '/admin/skills/create',
+        label: '＋ 新規スキルを作成'
+      }
+    } only %}
+
+    {# 登録状況 #}
+    {% include 'admin/components/summary.twig' with {
+      firstCard: {
+        class: 'summary-card--skills',
+        icon: '/assets/images/common/bar-chart-fill-b.svg',
+        label: '登録数',
+        count: skillCounts['total']
+      },
+      secondCard: {
+          class: 'summary-card--publish',
+          icon: '/assets/images/common/eye-fill.svg',
+          label: '公開中',
+          count: skillCounts['publish']
+        },
+        thirdCard: {
+          class: 'summary-card--unpublish',
+          icon: '/assets/images/common/eye-slash-fill.svg',
+          label: '非公開',
+          count: skillCounts['unpublish']
+        }
+    } only %}
+
+    {# 絞り込み #}
+    {% include 'admin/components/filter.twig' with {
+      placeholder: 'スキル名・カテゴリーから検索',
+      counts: skillCounts,
+      statusName: 'skill-status'
+    } only %}
+
+    {# テーブル #}
+    <section id="data-list">
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>スキル名</th>
+              <th>カテゴリー</th>
+              <th>公開状況</th>
+              <th>更新日</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody data-list-body>
+            {% for skill in skills %}
+              <tr
+                data-list-row
+                data-search="{{ skill.name }} {{ skill.category }}"
+                data-status="{{ skill.is_public == 1 ? 'publish' : 'unpublish' }}"
+                data-sort-order="{{ skill.sort_order }}"
+                data-updated-at="{{ skill.updated_at|date('Y-m-d') }}"
+              >
+                <td>{{ skill.name }}</td>
+                <td>{{ skill.category }}</td>
+                <td>
+                  {% if skill.is_public == 1 %}
+                    <span class="status-badge status-badge--publish">公開中</span>
+                  {% else %}
+                    <span class="status-badge status-badge--unpublish">非公開</span>
+                  {% endif %}
+                </td>
+                <td>{{ skill.updated_at|date('Y-m-d') }}</td>
+                <td><a href="/admin/skills/{{ skill.id }}/edit">詳細</a></td>
+              </tr>
+            {% endfor %}
+            <tr data-list-empty{% if skills is not empty %} hidden{% endif %}>
+              <td colspan="5">条件に一致するスキルはありません</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends 'layouts/admin.twig' %}
+
+{% set editing = is_edit|default(false) %}
+
+{% block title %}
+  {{ editing ? 'スキルを編集' : '新規スキルを作成' }} | Admin
+{% endblock %}
+
+{% block content %}
+  <div class="work-create">
+    <a href="/admin/skills" class="admin-form-back-link">
+      ← スキル一覧へ戻る
+    </a>
+
+    <form
+      action="{{ editing ? '/admin/skills/' ~ form.id : '/admin/skills' }}"
+      method="post"
+      class="work-create-form"
+    >
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+      <header class="work-create-header">
+        <div>
+          <p class="work-create-eyebrow">SKILLS MANAGEMENT</p>
+          <h1>{{ editing ? 'スキルを編集' : '新規スキルを作成' }}</h1>
+          <p class="work-create-lead">
+            {{ editing
+              ? '登録済みの情報を編集してスキル表示を更新します'
+              : 'スキルの情報と公開状態を設定します'
+            }}
+          </p>
+        </div>
+        <div class="work-create-actions">
+          <button type="submit" class="work-save-button">
+            {{ editing ? '更新する' : '下書き保存' }}
+          </button>
+        </div>
+      </header>
+
+      {% if errors.csrf is defined %}
+        <p class="work-form-alert" role="alert">{{ errors.csrf }}</p>
+      {% endif %}
+      {% if errors.common is defined %}
+        <p class="work-form-alert" role="alert">{{ errors.common }}</p>
+      {% endif %}
+
+      <div class="work-create-sections">
+        <section class="work-form-section">
+          <div class="work-form-section-header">
+            <h2>基本情報</h2>
+            <p>公開画面や実績・事例に表示するスキル情報です</p>
+          </div>
+
+          <div class="work-form-fields">
+            <label class="work-form-field" for="skill-name">
+              <span class="work-form-label">
+                スキル名
+                <small>必須</small>
+              </span>
+              <input
+                type="text"
+                id="skill-name"
+                name="name"
+                value="{{ form.name|default('') }}"
+                maxlength="100"
+                placeholder="PHP"
+                required
+              >
+              {% if errors.name is defined %}
+                <span class="work-form-error">{{ errors.name }}</span>
+              {% endif %}
+            </label>
+
+            <label class="work-form-field" for="skill-slug">
+              <span class="work-form-label">
+                URLスラッグ
+                <small>必須</small>
+              </span>
+              <input
+                type="text"
+                id="skill-slug"
+                name="slug"
+                value="{{ form.slug|default('') }}"
+                maxlength="100"
+                pattern="[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*"
+                placeholder="php"
+                required
+              >
+              {% if errors.slug is defined %}
+                <span class="work-form-error">{{ errors.slug }}</span>
+              {% endif %}
+            </label>
+
+            <label class="work-form-field" for="skill-category">
+              <span class="work-form-label">
+                カテゴリー
+                <small>必須</small>
+              </span>
+              <input
+                type="text"
+                id="skill-category"
+                name="category"
+                value="{{ form.category|default('') }}"
+                maxlength="50"
+                list="skill-categories"
+                autocomplete="off"
+                placeholder="Backend"
+                required
+              >
+              <datalist id="skill-categories">
+                {% for category in categories %}
+                  <option value="{{ category }}"></option>
+                {% endfor %}
+              </datalist>
+              {% if errors.category is defined %}
+                <span class="work-form-error">{{ errors.category }}</span>
+              {% endif %}
+            </label>
+          </div>
+        </section>
+
+        <section class="work-form-section">
+          <div class="work-form-section-header">
+            <h2>公開設定</h2>
+            <p>サイトへの掲載状態と表示順を設定します</p>
+          </div>
+
+          <div class="work-publish-settings">
+            <label class="work-setting-row">
+              <span>
+                <strong>公開する</strong>
+                <small>保存後、公開サイトや実績・事例のタグに表示します</small>
+              </span>
+              <span class="work-switch">
+                <input
+                  type="checkbox"
+                  name="is_public"
+                  value="1"
+                  {% if form.is_public|default(0) == 1 %}checked{% endif %}
+                >
+                <span aria-hidden="true"></span>
+              </span>
+            </label>
+
+            <label class="work-setting-row" for="skill-sort-order">
+              <span>
+                <strong>表示順</strong>
+                <small>数値が小さいスキルから先に表示されます</small>
+              </span>
+              <input
+                class="work-sort-order"
+                type="number"
+                id="skill-sort-order"
+                name="sort_order"
+                value="{{ form.sort_order|default(0) }}"
+                step="1"
+              >
+            </label>
+            {% if errors.sort_order is defined %}
+              <span class="work-form-error">{{ errors.sort_order }}</span>
+            {% endif %}
+          </div>
+        </section>
+      </div>
+
+      {% if editing %}
+        <div class="work-delete-actions">
+          <button
+            type="submit"
+            class="work-delete-button"
+            formaction="/admin/skills/{{ form.id }}/delete"
+            formmethod="post"
+            formnovalidate
+            data-confirm-delete="本当に削除しますか？"
+          >
+            削除する
+          </button>
+        </div>
+      {% endif %}
+    </form>
+  </div>
+{% endblock %}

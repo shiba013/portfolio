@@ -1,7 +1,102 @@
-{% extends 'layouts/base.twig' %}
+{% extends 'layouts/admin.twig' %}
 
 {% block title %}
-  adminHOME | 管理画面
+  Dashboard | Admin
 {% endblock %}
 
-{% block content %}{% endblock %}
+{% block content %}
+  <div class="dashboard">
+    {# ヘッダー共通化 #}
+    {% include 'admin/components/header.twig' with {
+      eyebrow: 'OVERVIEW',
+      title: 'Dashboard',
+      action: {
+        url: '/',
+        class: 'dashboard-site-link',
+        target: '_blank',
+        icon: '/assets/images/common/box-arrow-up-right.svg',
+        label: 'サイトを見る'
+      }
+    } only %}
+
+    {# 登録状況共通化 #}
+    {% include 'admin/components/summary.twig' with {
+      firstCard: {
+        class: 'summary-card--works',
+        icon: '/assets/images/common/file-text-n.svg',
+        label: '実績',
+        count: workCounts['total'],
+        breakdown: {
+          publishLabel: '公開',
+          publishCount: workCounts['publish'],
+          unpublishLabel: '非公開',
+          unpublishCount: workCounts['unpublish']
+        }
+      },
+      secondCard: {
+        class: 'summary-card--cases',
+        icon: '/assets/images/common/folder-fill-g.svg',
+        label: '事例',
+        count: caseCounts['total'],
+        breakdown: {
+          publishLabel: '公開',
+          publishCount: caseCounts['publish'],
+          unpublishLabel: '非公開',
+          unpublishCount: caseCounts['unpublish']
+        }
+      },
+      thirdCard: {
+        class: 'summary-card--skills',
+        icon: '/assets/images/common/bar-chart-fill-b.svg',
+        label: 'スキル',
+        count: skillCounts['total'],
+        breakdown: {
+          publishLabel: '公開',
+          publishCount: skillCounts['publish'],
+          unpublishLabel: '非公開',
+          unpublishCount: skillCounts['unpublish']
+        }
+      }
+    } only %}
+
+    {# 問い合わせ有無 #}
+    <section class="contact-alert">
+      <img src="/assets/images/common/exclamation-circle-fill.svg">
+      <div>
+        <p class="contact-alert-label">ACTION REQUIRED</p>
+        <h2 id="contact-alert-title">
+          未対応問い合わせ
+          <strong>{{ findStatusUnhandled }}件</strong>
+        </h2>
+      </div>
+      <a href="/admin/contacts">問い合わせ一覧を見る→</a>
+    </section>
+
+    {# ここ何にしよう #}
+
+
+    {# クイック操作 #}
+    <section class="dashboard-section quick-add">
+      <div class="section-heading">
+        <div>
+          <p class="dashboard-eyebrow">CREATE</p>
+          <h2 id="quick-add-title">クイック追加</h2>
+        </div>
+      </div>
+      <div class="quick-add-actions">
+        <a href="/admin/works/create">
+          <span>＋</span>
+          実績を追加
+        </a>
+        <a href="/admin/cases/create">
+          <span>＋</span>
+          事例を追加
+        </a>
+        <a href="/admin/skills/create">
+          <span>＋</span>
+          スキルを追加
+        </a>
+      </div>
+    </section>
+  </div>
+{% endblock %}
