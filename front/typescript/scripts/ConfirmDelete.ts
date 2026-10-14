@@ -12,3 +12,5 @@ document
       }
     });
   });
+
+export {};

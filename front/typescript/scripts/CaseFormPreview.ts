@@ -105,3 +105,5 @@ const initCaseFormPreview = (form: HTMLFormElement) => {
 document
   .querySelectorAll<HTMLFormElement>("[data-case-create-form]")
   .forEach(initCaseFormPreview);
+
+export {};

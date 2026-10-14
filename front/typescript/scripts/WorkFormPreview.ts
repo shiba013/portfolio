@@ -178,3 +178,5 @@ const initWorkFormPreview = (form: HTMLFormElement) => {
 document
   .querySelectorAll<HTMLFormElement>("[data-work-create-form]")
   .forEach(initWorkFormPreview);
+
+export {};

@@ -10,7 +10,6 @@ VALUES
 ('SCSS', 'scss', 'Frontend', 3),
 ('JavaScript', 'javascript', 'Frontend', 4),
 ('TypeScript', 'typescript', 'Frontend', 5),
-('React', 'react', 'Frontend', 6),
 
 ('MySQL', 'mysql', 'Database', 1),
 
@@ -47,9 +46,9 @@ VALUES
 ),
 (
   'コーポレートサイトリニューアル',
-  'corporate-site-react',
+  'corporate-site-typescript',
   'Frontend',
-  'React・TypeScriptを使用したコーポレートサイトのリニューアル。',
+  'TypeScriptを使用したコーポレートサイトのリニューアル。',
   '約2週間',
   1,
   1,

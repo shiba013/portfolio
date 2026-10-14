@@ -32,3 +32,5 @@ const initCasesFilter = () => {
   });
 };
 initCasesFilter();
+
+export {};

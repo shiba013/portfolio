@@ -21,10 +21,11 @@ PHP 8.4
 ├── PDO
 │   └── MySQL
 │
-└── Vite
-    ├── JavaScript
+└── Frontend
+    ├── Twig / HTML
+    ├── CSS
     ├── TypeScript
-    └── React
+    └── Vite
 ```
 
 ## 必要環境
@@ -60,11 +61,10 @@ composer require \
 ### フロントエンド依存関係のインストール
 ```sh
 npm install
-npm install -D vite
-npm install react react-dom
-npm install -D typescript @types/react @types/react-dom
-npm install -D @vitejs/plugin-react
 ```
+
+フロントエンドはUIフレームワークを使用せず、Vanilla TypeScriptとCSSで構成しています。
+TypeScriptのエントリーファイルは `front/typescript/main.ts` と `front/typescript/admin.ts` です。
 
 ### 環境変数の設定
 ```sh
@@ -86,4 +86,9 @@ npm run dev
 ### フロントエンドのビルド
 ```sh
 npm run build
+```
+
+### TypeScriptの型チェック
+```sh
+npm run typecheck
 ```

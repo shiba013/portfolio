@@ -15,5 +15,4 @@ import "./scripts/WorkFormPreview";
 import "./scripts/CaseFormPreview";
 import "./scripts/ConfirmDelete";
 
-// components
 console.log("admin | SHIBAHARA.DEV initialized.");

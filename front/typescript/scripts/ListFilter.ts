@@ -147,3 +147,5 @@ const initListFilter = (controls: HTMLElement) => {
 document
   .querySelectorAll<HTMLElement>("[data-list-controls]")
   .forEach(initListFilter);
+
+export {};

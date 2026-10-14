@@ -30,3 +30,5 @@ const initWorksFilter = () => {
   });
 };
 initWorksFilter();
+
+export {};

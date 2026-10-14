@@ -18,14 +18,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
     "types": [
       "vite/client"
     ]
   },
   "include": [
     "front/**/*.ts",
-    "front/**/*.tsx",
     "vite.config.ts"
   ]
 }

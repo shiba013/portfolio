@@ -16,6 +16,4 @@ import "./scripts/WorksFilter";
 import "./scripts/TopButton";
 import "./scripts/MobileMenu";
 
-// components
-
 console.log("SHIBAHARA.DEV initialized.");

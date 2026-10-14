@@ -1,9 +1,6 @@
 import { defineConfig } from "vite";
 
-import react from "@vitejs/plugin-react";
-
 export default defineConfig({
-  plugins: [react()],
   publicDir: false,
   build: {
     outDir: "public/assets/build",
@@ -11,8 +8,8 @@ export default defineConfig({
     manifest: true,
     rollupOptions: {
       input: {
-        main: "front/react/main.tsx",
-        admin: "front/react/admin.tsx",
+        main: "front/typescript/main.ts",
+        admin: "front/typescript/admin.ts",
       },
     },
   },
